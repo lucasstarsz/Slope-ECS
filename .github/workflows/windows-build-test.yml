@@ -17,7 +17,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: '15'
+        architecture: x64
     - name: Build
-      run: ./gradlew.bat build
+      run: ./gradlew build
     - name: Test
-      run: ./gradlew.bat test
+      run: ./gradlew test
