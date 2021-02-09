@@ -1,6 +1,0 @@
-module:Slope.ECS
-org.lucasstarsz.slope
-org.lucasstarsz.slope.component
-org.lucasstarsz.slope.entity
-org.lucasstarsz.slope.system
-org.lucasstarsz.slope.util
