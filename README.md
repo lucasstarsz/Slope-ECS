@@ -5,10 +5,6 @@
 An pre-allocative, Java-based Entity Component System.
 
 
-[Current Build Documentation][Docs]
-
-[Docs]: https://github.com/lucasstarsz/Slope-ECS/tree/main/docs/index.html
-
 [Ubuntu-Build-Action]: https://github.com/lucasstarsz/Slope-ECS/actions?query=workflow%3AUbuntu-Build-Test "Ubuntu Build/Test Status"
 [Ubuntu-Build-SVG]: https://github.com/lucasstarsz/Slope-ECS/workflows/Ubuntu-Build-Test/badge.svg
 
