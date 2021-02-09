@@ -17,7 +17,6 @@ javadoc {
     source(sourceSets.main.allJava)
     failOnError(false)
     options.stylesheetFile(new File(projectDir, "src/main/javadoc/vgesheet.css"))
-    destinationDir(new File(projectDir, "docs"))
 }
 
 group('org.luacsstarsz')
