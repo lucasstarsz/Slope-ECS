@@ -32,10 +32,6 @@ dependencies {
     testImplementation 'junit:junit:4.13'
 }
 
-test {
-    useJUnit()
-}
-
 tasks.withType(Test) {
     testLogging {
 
