@@ -425,9 +425,7 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
     font-weight: bold;
     clear: none;
     overflow: hidden;
-    padding: 0px;
-    padding-top: 10px;
-    padding-left: 1px;
+    padding: 10px 0px 0px;
     margin: 0px;
     white-space: pre;
 }
@@ -461,20 +459,24 @@ table tr td dl, table tr td dl dt, table tr td dl dd {
 .requires-summary caption span, .packages-summary caption span, .provides-summary caption span,
 .uses-summary caption span, .system-properties-summary caption span {
     white-space: nowrap;
-    padding-top: 5px;
-    padding-left: 12px;
-    padding-right: 12px;
-    padding-bottom: 7px;
+    padding: 5px 12px 7px 12px;
     display: inline-block;
     float: left;
     background-color: #3d628e;
     color: #ffffff;
-    border: none;
+    border-style: solid solid none solid;
+    border-width: 1px;
+    border-radius: 0;
+    border-color: #000000;
     height: 16px;
+    left: -10px;
 }
 
 div.table-tabs > button {
-    border: none;
+    border-style: solid solid none solid;
+    border-width: 1px;
+    border-radius: 0;
+    border-color: #000000;
     cursor: pointer;
     padding: 5px 12px 7px 12px;
     font-weight: bold;
@@ -605,8 +607,9 @@ td.col-last a {
 }
 
 div.member-signature {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'DejaVu Sans Mono', monospace;
     font-size: 14px;
+    color: #ffffff;
     margin: 14px 0;
     white-space: pre-wrap;
 }
@@ -625,6 +628,14 @@ div.member-signature span.exceptions {
 
 div.member-signature span.type-parameters {
     white-space: normal;
+}
+
+/*
+Problematic border
+// TODO: fix border issue
+ */
+th.col-last {
+    border-top: solid #000000 1px;
 }
 
 /*
@@ -734,7 +745,7 @@ ul.ui-autocomplete li {
 }
 
 #reset {
-    background-color: rgb(255, 255, 255);
+    background-color: #2b2b2b;
     background-image: url('resources/x.png');
     background-position: center;
     background-repeat: no-repeat;
