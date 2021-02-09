@@ -19,7 +19,7 @@ javadoc {
     options.stylesheetFile(new File(projectDir, "src/main/javadoc/slope-custom.css"))
 }
 
-group('org.luacsstarsz')
+group('io.github.lucasstarsz')
 version('0.0.1-SNAPSHOT')
 
 repositories {
