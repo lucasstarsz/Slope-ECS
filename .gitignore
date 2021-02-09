@@ -33,6 +33,8 @@ gradle.properties
 
 # Package Files
 *.jar
+# except gradle-wrapper
+!gradle-wrapper.jar
 *.war
 *.nar
 *.ear
