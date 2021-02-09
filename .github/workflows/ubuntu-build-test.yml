@@ -21,6 +21,6 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
     - name: Build
-      run: ./gradlew build -x uploadArchives
+      run: ./gradlew build -x uploadArchives -x signArchives
     - name: Test
-      run: ./gradlew test -x uploadArchives
+      run: ./gradlew test -x uploadArchives -x signArchives

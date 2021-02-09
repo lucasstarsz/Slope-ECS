@@ -75,8 +75,8 @@ uploadArchives {
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(
-                        userName: properties.get("ossrhUsername"),
-                        password: properties.get("ossrhPassword")
+                        userName: ossrhUsername,
+                        password: ossrhPassword
                 )
             }
 
@@ -89,7 +89,9 @@ uploadArchives {
                 url = 'https://github.com/lucasstarsz/Slope-ECS'
 
                 scm {
-                    connection = 'scm:https://github.com/lucasstarsz/Slope-ECS'
+                    connection = 'scm:git:https://github.com/lucasstarsz/Slope-ECS.git'
+                    developerConnection = 'scm:git:https://github.com/lucasstarsz/Slope-ECS.git'
+                    url = 'https://github.com/lucasstarsz/Slope-ECS.git'
                 }
 
                 licenses {
