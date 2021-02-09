@@ -29,7 +29,7 @@ signing {
 
 group('io.github.lucasstarsz')
 archivesBaseName = 'Slope-ECS'
-version('0.0.1-SNAPSHOT')
+version('0.0.1')
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -73,16 +73,13 @@ uploadArchives {
                 MavenDeployment deployment -> signing.signPom(deployment)
             }
 
-            repository(url: "https://github.com/lucasstarsz/Slope-ECS") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://github.com/lucasstarsz/Slope-ECS") {
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: ossrhUsername, password: ossrhPassword)
             }
 
             pom.project {
                 packaging 'jar'
+                name = 'Slope Entity Component System'
                 // optionally artifactId can be defined here
                 description('A application used as an example on how to set up pushing its ' +
                         'components to the Central Repository.')
