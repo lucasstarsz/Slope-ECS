@@ -1,7 +1,7 @@
-package io.github.lucasstarsz.system;
+package io.github.lucasstarsz.slopeecs.system;
 
-import io.github.lucasstarsz.World;
-import io.github.lucasstarsz.component.IComponent;
+import io.github.lucasstarsz.slopeecs.World;
+import io.github.lucasstarsz.slopeecs.component.IComponent;
 
 import java.util.BitSet;
 import java.util.LinkedHashMap;

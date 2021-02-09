@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.component;
+package io.github.lucasstarsz.slopeecs.component;
 
 /**
  * This interface groups all components under one branch, allowing for generics to work as intended.

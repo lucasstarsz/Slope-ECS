@@ -1,6 +1,6 @@
-package io.github.lucasstarsz.system;
+package io.github.lucasstarsz.slopeecs.system;
 
-import io.github.lucasstarsz.World;
+import io.github.lucasstarsz.slopeecs.World;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;

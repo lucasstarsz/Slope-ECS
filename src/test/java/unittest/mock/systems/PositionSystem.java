@@ -1,6 +1,6 @@
 package unittest.mock.systems;
 
-import io.github.lucasstarsz.system.ECSSystem;
+import io.github.lucasstarsz.slopeecs.system.ECSSystem;
 import unittest.mock.components.PositionComponent;
 import unittest.mock.components.VelocityComponent;
 

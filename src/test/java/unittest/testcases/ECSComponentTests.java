@@ -2,7 +2,7 @@ package unittest.testcases;
 
 import org.junit.Before;
 import org.junit.Test;
-import io.github.lucasstarsz.World;
+import io.github.lucasstarsz.slopeecs.World;
 import unittest.mock.components.PositionComponent;
 import unittest.mock.components.VelocityComponent;
 

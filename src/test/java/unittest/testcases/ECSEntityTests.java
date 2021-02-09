@@ -2,7 +2,7 @@ package unittest.testcases;
 
 import org.junit.Before;
 import org.junit.Test;
-import io.github.lucasstarsz.World;
+import io.github.lucasstarsz.slopeecs.World;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;

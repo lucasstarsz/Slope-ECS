@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.component;
+package io.github.lucasstarsz.slopeecs.component;
 
 import java.util.HashMap;
 import java.util.Map;

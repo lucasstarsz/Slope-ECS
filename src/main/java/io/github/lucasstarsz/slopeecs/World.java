@@ -1,11 +1,11 @@
-package io.github.lucasstarsz;
+package io.github.lucasstarsz.slopeecs;
 
-import io.github.lucasstarsz.component.ECSComponentManager;
-import io.github.lucasstarsz.component.IComponent;
-import io.github.lucasstarsz.entity.ECSEntityManager;
-import io.github.lucasstarsz.system.ECSSystem;
-import io.github.lucasstarsz.system.ECSSystemManager;
-import io.github.lucasstarsz.util.ECSDefaults;
+import io.github.lucasstarsz.slopeecs.component.ECSComponentManager;
+import io.github.lucasstarsz.slopeecs.component.IComponent;
+import io.github.lucasstarsz.slopeecs.entity.ECSEntityManager;
+import io.github.lucasstarsz.slopeecs.system.ECSSystem;
+import io.github.lucasstarsz.slopeecs.system.ECSSystemManager;
+import io.github.lucasstarsz.slopeecs.util.ECSDefaults;
 
 import java.util.BitSet;
 import java.util.LinkedHashMap;

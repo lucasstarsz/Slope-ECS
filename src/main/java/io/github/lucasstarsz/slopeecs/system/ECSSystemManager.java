@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.system;
+package io.github.lucasstarsz.slopeecs.system;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

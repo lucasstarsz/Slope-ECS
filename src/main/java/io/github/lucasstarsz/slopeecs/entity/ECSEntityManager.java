@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.entity;
+package io.github.lucasstarsz.slopeecs.entity;
 
 import java.util.BitSet;
 import java.util.Deque;
