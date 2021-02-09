@@ -22,5 +22,8 @@ jobs:
       run: chmod +x ./gradlew
     - name: Build
       run: ./gradlew build -x uploadArchives -x signArchives
+      env:
+        ossrhUsername: ${{secrets.OSSRH_USERNAME}}
+        ossrhPassword: ${{secrets.OSSRH_PASSWORD}}
     - name: Test
-      run: ./gradlew test -x uploadArchives -x signArchives
+      run: ./gradlew test

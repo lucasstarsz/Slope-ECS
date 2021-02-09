@@ -75,8 +75,8 @@ uploadArchives {
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(
-                        userName: ossrhUsername,
-                        password: ossrhPassword
+                        userName: System.getenv('ossrhUsername'),
+                        password: System.getenv('ossrhPassword')
                 )
             }
 

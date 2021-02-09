@@ -20,5 +20,8 @@ jobs:
         architecture: x64
     - name: Build
       run: ./gradlew build -x uploadArchives -x signArchives
+      env:
+        ossrhUsername: ${{secrets.ossrhUsername}}
+        ossrhPassword: ${{secrets.ossrhPassword}}
     - name: Test
-      run: ./gradlew test -x uploadArchives -x signArchives
+      run: ./gradlew test
