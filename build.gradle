@@ -3,14 +3,9 @@ import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
-    // For publishing to Maven Central, we'll probably want this.
-    id 'maven-publish'
+    // For publishing to Maven Central, we'll probably want these.
+    id 'maven'
     id 'signing'
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
 }
 
 javadoc {
@@ -19,7 +14,21 @@ javadoc {
     options.stylesheetFile(new File(projectDir, "src/main/javadoc/slope-custom.css"))
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
 group('io.github.lucasstarsz')
+archivesBaseName = 'Slope-ECS'
 version('0.0.1-SNAPSHOT')
 
 repositories {
@@ -57,37 +66,49 @@ tasks.withType(Test) {
     }
 }
 
-publishing {
-    publications {
-        slopeECSPublish(MavenPublication) {
-            from components.java
-
-            afterEvaluate {
-                artifactId = 'Slope-ECS'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment {
+                MavenDeployment deployment -> signing.signPom(deployment)
             }
 
-            pom {
-                name = 'Slope ECS'
-                description('A pre-allocative, Java-based Entity Component System.')
+            repository(url: "https://github.com/lucasstarsz/Slope-ECS") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://github.com/lucasstarsz/Slope-ECS") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description('A application used as an example on how to set up pushing its ' +
+                        'components to the Central Repository.')
                 url = 'https://github.com/lucasstarsz/Slope-ECS'
+
+                scm {
+                    connection = 'scm:https://github.com/lucasstarsz/Slope-ECS'
+                    developerConnection = 'scm:svn:https://foo.googlecode.com/svn/trunk/'
+                    url = 'http://foo.googlecode.com/svn/trunk/'
+                }
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://github.com/lucasstarsz/Slope-ECS/blob/main/LICENSE.txt'
+                    }
+                }
 
                 developers {
                     developer {
                         id = 'andrewd'
                         name = 'Andrew Dey'
-                        email = 'andrewrcdey@gmail.com'
+                        email = 'manfred@sonatype.com'
                     }
                 }
             }
         }
     }
-    repositories {
-        maven {
-            url = "https://github.com/lucasstarsz/Slope-ECS"
-        }
-    }
-}
-
-signing {
-    sign publishing.publications.slopeECSPublish
 }
