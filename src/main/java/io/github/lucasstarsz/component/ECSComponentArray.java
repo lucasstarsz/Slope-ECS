@@ -1,4 +1,4 @@
-package org.lucasstarsz.slope.component;
+package io.github.lucasstarsz.component;
 
 import java.util.Dictionary;
 import java.util.HashMap;

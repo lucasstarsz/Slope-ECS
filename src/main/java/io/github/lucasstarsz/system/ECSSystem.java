@@ -1,6 +1,6 @@
-package org.lucasstarsz.slope.system;
+package io.github.lucasstarsz.system;
 
-import org.lucasstarsz.slope.World;
+import io.github.lucasstarsz.World;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;

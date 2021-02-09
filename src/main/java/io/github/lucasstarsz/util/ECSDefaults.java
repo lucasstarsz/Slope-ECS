@@ -1,4 +1,4 @@
-package org.lucasstarsz.slope.util;
+package io.github.lucasstarsz.util;
 
 /** Default values for the ECS. */
 public class ECSDefaults {

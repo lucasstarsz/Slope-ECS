@@ -1,6 +1,6 @@
 package unittest.mock.components;
 
-import org.lucasstarsz.slope.component.IComponent;
+import io.github.lucasstarsz.component.IComponent;
 
 public class PositionComponent implements IComponent {
     public float x;

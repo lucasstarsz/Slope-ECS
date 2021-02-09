@@ -1,4 +1,4 @@
-package org.lucasstarsz.slope.component;
+package io.github.lucasstarsz.component;
 
 /**
  * An interface is needed so that the {@code ECSComponentManager} can tell a generic {@code ECSComponentArray} that an

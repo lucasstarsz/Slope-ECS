@@ -1,7 +1,7 @@
-package org.lucasstarsz.slope.system;
+package io.github.lucasstarsz.system;
 
-import org.lucasstarsz.slope.World;
-import org.lucasstarsz.slope.component.IComponent;
+import io.github.lucasstarsz.World;
+import io.github.lucasstarsz.component.IComponent;
 
 import java.util.BitSet;
 import java.util.LinkedHashMap;
