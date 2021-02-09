@@ -19,6 +19,6 @@ jobs:
         java-version: '15'
         architecture: x64
     - name: Build
-      run: ./gradlew build
+      run: ./gradlew build -x uploadArchives
     - name: Test
-      run: ./gradlew test
+      run: ./gradlew test -x uploadArchives

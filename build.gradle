@@ -87,8 +87,6 @@ uploadArchives {
 
                 scm {
                     connection = 'scm:https://github.com/lucasstarsz/Slope-ECS'
-                    developerConnection = 'scm:svn:https://foo.googlecode.com/svn/trunk/'
-                    url = 'http://foo.googlecode.com/svn/trunk/'
                 }
 
                 licenses {
