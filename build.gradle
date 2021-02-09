@@ -1,0 +1,51 @@
+import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
+
+plugins {
+    // Apply the java-library plugin for API and implementation separation.
+    id 'java-library'
+}
+
+javadoc {
+    source(sourceSets.main.allJava)
+    failOnError(false)
+    options.stylesheetFile(new File(projectDir, "src/main/javadoc/vgesheet.css"))
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+dependencies {
+    // Use JUnit test framework.
+    testImplementation 'junit:junit:4.13'
+}
+
+test {
+    useJUnit()
+}
+
+tasks.withType(Test) {
+    testLogging {
+
+        def totalTestTime = 0
+
+        afterTest { desc, DefaultTestResult result ->
+            totalTestTime += result.endTime - result.startTime
+        }
+
+        afterSuite { desc, DefaultTestResult result ->
+            if (!desc.parent) { // will match the outermost suite
+                def passedFailedSkipped = "${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped"
+                def output = "Test Suite Results: ${result.resultType} (${result.testCount} tests, ${passedFailedSkipped}) in ${totalTestTime} ms."
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength) + '\n')
+
+                if (("${result.resultType}" != "SUCCESS")) {
+                    System.exit(0)
+                }
+            }
+        }
+    }
+}
