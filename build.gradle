@@ -49,6 +49,8 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
+/* Java modules need this in order for the module path to be inferred based on module-info.java
+ * files. */
 plugins.withType(JavaPlugin).configureEach {
     java {
         modularity.inferModulePath = true
