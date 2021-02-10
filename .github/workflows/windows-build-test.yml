@@ -19,7 +19,7 @@ jobs:
         java-version: '15'
         architecture: x64
     - name: Build
-      run: ./gradlew build -x uploadArchives -x signArchives
+      run: ./gradlew build -x publish
       env:
         ossrhUsername: ${{secrets.ossrhUsername}}
         ossrhPassword: ${{secrets.ossrhPassword}}
