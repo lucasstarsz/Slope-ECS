@@ -1,4 +1,4 @@
-import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
+// Basics
 
 plugins {
     // Apply the java-library plugin for API and implementation separation.
@@ -9,23 +9,8 @@ plugins {
     id 'signing'
 }
 
-javadoc {
-    source(sourceSets.main.allJava)
-    failOnError(false)
-    options.stylesheetFile(new File(projectDir, "src/main/javadoc/slope-custom.css"))
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
-}
-
 group('io.github.lucasstarsz')
-version('0.0.3')
+version('0.0.4')
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -36,6 +21,36 @@ dependencies {
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13'
 }
+
+// Build
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Implementation-Title': 'slope-ecs',
+                'Implementation-Version': project.version,
+                'Module-Name': 'Slope.ECS'
+        )
+    }
+}
+
+javadoc {
+    source(sourceSets.main.allJava)
+    failOnError(false)
+    options.stylesheetFile(new File(projectDir, "src/main/javadoc/slope-custom.css"))
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+// Testing
+import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 
 tasks.withType(Test) {
     testLogging {
@@ -48,8 +63,8 @@ tasks.withType(Test) {
 
         afterSuite { desc, DefaultTestResult result ->
             if (!desc.parent) { // will match the outermost suite
-                def passedFailedSkipped = "${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped"
-                def output = "Test Suite Results: ${result.resultType} (${result.testCount} tests, ${passedFailedSkipped}) in ${totalTestTime} ms."
+                def passFailSkip = "$result.successfulTestCount passed, $result.failedTestCount failed, $result.skippedTestCount skipped"
+                def output = "Test Suite Results: $result.resultType ($result.testCount tests, $passFailSkip) in $totalTestTime ms."
                 def startItem = '|  ', endItem = '  |'
                 def repeatLength = startItem.length() + output.length() + endItem.length()
                 println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength) + '\n')
@@ -62,55 +77,62 @@ tasks.withType(Test) {
     }
 }
 
-publishing {
-    publications {
-        slopePublish(MavenPublication) {
-            groupId = project.group
-            artifactId = 'slope-ecs'
-            version = project.version
+// Publishing
 
-            pom {
-                name = 'Slope ECS'
-                description = 'A pre-allocative, Java-based Entity Component System.'
-                url = 'https://github.com/lucasstarsz/Slope-ECS'
+def shouldPublish = System.getenv('ossrhUsername') != null && System.getenv('ossrhPassword') != null
+publish.onlyIf { shouldPublish }
 
-                scm {
-                    connection = 'scm:git:https://github.com/lucasstarsz/Slope-ECS.git'
-                    developerConnection = 'scm:git:https://github.com/lucasstarsz/Slope-ECS.git'
-                    url = 'https://github.com/lucasstarsz/Slope-ECS.git'
-                }
+if (shouldPublish) {
+    publishing {
+        publications {
+            slopePublish(MavenPublication) {
+                groupId = project.group
+                artifactId = 'slope-ecs'
+                version = project.version
 
-                licenses {
-                    license {
-                        name = 'MIT License'
-                        url = 'https://github.com/lucasstarsz/Slope-ECS/blob/main/LICENSE.txt'
+                pom {
+                    name = 'Slope ECS'
+                    description = 'A pre-allocative, Java-based Entity Component System.'
+                    url = 'https://github.com/lucasstarsz/Slope-ECS'
+
+                    scm {
+                        connection = 'scm:git:https://github.com/lucasstarsz/Slope-ECS.git'
+                        developerConnection = 'scm:git:https://github.com/lucasstarsz/Slope-ECS.git'
+                        url = 'https://github.com/lucasstarsz/Slope-ECS.git'
+                    }
+
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'https://github.com/lucasstarsz/Slope-ECS/blob/main/LICENSE.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = 'andrewd'
+                            name = 'Andrew Dey'
+                            email = 'andrewrcdey@gmail.com'
+                        }
                     }
                 }
 
-                developers {
-                    developer {
-                        id = 'andrewd'
-                        name = 'Andrew Dey'
-                        email = 'andrewrcdey@gmail.com'
-                    }
+                from components.java
+            }
+        }
+
+        repositories {
+            maven {
+                url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                credentials {
+                    username = System.getenv('ossrhUsername')
+                    password = System.getenv('ossrhPassword')
                 }
             }
-
-            from components.java
         }
     }
 
-    repositories {
-        maven {
-            url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-            credentials {
-                username = System.getenv('ossrhUsername')
-                password = System.getenv('ossrhPassword')
-            }
-        }
+    signing {
+        sign publishing.publications.slopePublish
     }
-}
-
-signing {
-    sign publishing.publications.slopePublish
 }
