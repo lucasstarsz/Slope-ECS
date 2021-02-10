@@ -49,6 +49,12 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
+plugins.withType(JavaPlugin).configureEach {
+    java {
+        modularity.inferModulePath = true
+    }
+}
+
 // Testing
 import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 
