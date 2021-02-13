@@ -25,8 +25,4 @@ public class PositionSystem extends ECSSystem {
             }
         }
     }
-
-    public int getEntityCount() {
-        return entities.size();
-    }
 }

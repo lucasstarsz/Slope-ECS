@@ -32,8 +32,4 @@ public class GravitySystem extends ECSSystem {
             }
         }
     }
-
-    public int getEntityCount() {
-        return entities.size();
-    }
 }

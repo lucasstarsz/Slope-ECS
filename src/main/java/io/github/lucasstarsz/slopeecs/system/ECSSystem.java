@@ -36,4 +36,13 @@ public class ECSSystem {
     public void setWorld(World world) {
         this.world = world;
     }
+
+    /**
+     * Gets the amount of entities currently in the system.
+     *
+     * @return The amount of entities in the system.
+     */
+    public int getEntityCount() {
+        return entities.size();
+    }
 }
