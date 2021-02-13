@@ -35,7 +35,7 @@ import java.util.LinkedHashMap;
  * <p>
  * As a result, this builder class was developed, allowing the user a more readable interface for creating a system. The
  * result:
- * <pre lang="java">{@code  // assume the same as last time
+ * <pre>{@code  // assume the same as last time
  *
  * TransformSystem transformSystem = new ECSSystemBuilder<>(world, TransformSystem.class)
  *         .withComponent(TransformComponent.class)
