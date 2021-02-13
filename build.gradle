@@ -42,7 +42,14 @@ jar {
 javadoc {
     source(sourceSets.main.allJava)
     failOnError(false)
+
+    // use custom stylesheet
     options.stylesheetFile(new File(projectDir, "src/main/javadoc/slope-custom.css"))
+
+    options.links = [
+            // resolve links to Java javadocs
+            'https://docs.oracle.com/en/java/javase/15/docs/api/'
+    ]
 }
 
 artifacts {
