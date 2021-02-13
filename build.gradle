@@ -10,7 +10,7 @@ plugins {
 }
 
 group('io.github.lucasstarsz')
-version('0.0.5')
+version('0.0.6')
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -107,7 +107,7 @@ if (shouldPublish) {
 
                 pom {
                     name = 'Slope ECS'
-                    description = 'A pre-allocative, Java-based Entity Component System.'
+                    description('A pre-allocative, Java-based Entity Component System.')
                     url = 'https://github.com/lucasstarsz/Slope-ECS'
 
                     scm {
