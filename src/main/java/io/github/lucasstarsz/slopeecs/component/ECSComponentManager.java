@@ -134,6 +134,15 @@ public class ECSComponentManager {
     }
 
     /**
+     * Gets the count of component arrays in the component manager.
+     *
+     * @return The amount of component arrays.
+     */
+    public int getComponentArrayCount() {
+        return componentArrays.values().size();
+    }
+
+    /**
      * Gets the ComponentArray of type {@code T}.
      *
      * @param componentClass The class of the component array to get.
