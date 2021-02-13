@@ -13,7 +13,7 @@
  */
 
 body {
-    background-color: #181a1b;
+    background-color: #36393f;
     color: #cdcbc9;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 14px;
@@ -33,13 +33,14 @@ iframe {
 }
 
 a:link, a:visited {
-    text-decoration: none;
-    color: #67379c;
+    text-decoration: underline;
+    color: #1380c8;
+    transition: color .2s;
 }
 
 a[href]:hover, a[href]:focus {
-    text-decoration: none;
-    color: #bb7a2a;
+    text-decoration: underline;
+    color: #ff9313;
 }
 
 a[name] {
@@ -49,6 +50,14 @@ a[name] {
 pre {
     font-family: 'DejaVu Sans Mono', monospace;
     font-size: 14px;
+
+    background-color: #323232;
+
+    border-style: solid;
+    border-color: #000000;
+    border-width: 1px;
+    border-radius: .5em;
+    padding: .75em;
 }
 
 h1 {
@@ -166,12 +175,15 @@ button {
     }
 }
 
-.top-nav {
-    background-color: #182146;
-    color: #ffffff;
+.top-nav, .bottom-nav, .sub-nav {
+    background-color: #182235;
     float: left;
-    padding: 0;
+}
+
+.top-nav {
+    color: #ffffff;
     width: 100%;
+    padding: 0;
     clear: right;
     height: 2.8em;
     padding-top: 10px;
@@ -181,11 +193,9 @@ button {
 
 .bottom-nav {
     margin-top: 10px;
-    background-color: #182146;
     color: #ffffff;
-    float: left;
-    padding: 0;
     width: 100%;
+    padding: 0;
     clear: right;
     height: 2.8em;
     padding-top: 10px;
@@ -194,7 +204,6 @@ button {
 }
 
 .sub-nav {
-    background-color: #182146;
     float: left;
     width: 100%;
     overflow: hidden;
@@ -489,7 +498,7 @@ div.table-tabs > button.active-table-tab {
 }
 
 div.table-tabs > button.table-tab {
-    background: #4d7a97;
+    background: #3d628e;
     color: #ffffff;
 }
 
@@ -699,12 +708,14 @@ main, nav, header, footer, section {
     font-weight: bold;
     font-size: 15px;
     padding: 7px 0 7px 3px;
-    background-color: #4d7a97;
+    background-color: #252f5a;
     color: #ffffff;
 }
 
 .result-item {
     font-size: 13px;
+    color: #cdcbc9;
+    background-color: #2b2b2b;
 }
 
 .ui-autocomplete {
