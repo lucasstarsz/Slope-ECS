@@ -1,58 +1,43 @@
 package unittest.testcases;
 
+import io.github.lucasstarsz.slopeecs.World;
 import org.junit.Before;
 import org.junit.Test;
-import io.github.lucasstarsz.slopeecs.World;
-import unittest.mock.components.PositionComponent;
-import unittest.mock.components.VelocityComponent;
-import unittest.mock.systems.PositionSystem;
-
-import java.util.BitSet;
 
 import static junit.framework.TestCase.assertEquals;
 
 
 public class ECSInitialStateTests {
-    private final World manager = new World();
+    private final World world = new World();
 
     @Before
     public void initialize() {
         /* Initialize the manager before each test. */
-        manager.init();
+        world.init();
     }
 
     @Test
-    public void checkLivingEntityCount_whenNoEntitiesArePresent() {
-        assertEquals("No entities should be present.", 0, manager.getEntityManager().getLivingEntityCount());
+    public void checkInitialLivingEntityCount() {
+        assertEquals("No entities should be present.", 0, world.getEntityManager().getLivingEntityCount());
     }
 
     @Test
-    public void checkAvailableEntityCount_whenNoEntitiesArePresent() {
-        assertEquals("No entities should be present.", manager.getMaxEntities(), manager.getEntityManager().getAvailableEntities());
+    public void checkInitialAvailableEntityCount() {
+        assertEquals("Every entity slot should be available.", world.getMaxEntities(), world.getEntityManager().getAvailableEntities());
     }
 
     @Test
-    public void checkRegisteredComponentCount_whenTwoAreRegistered() {
-        manager.registerComponent(PositionComponent.class);
-        manager.registerComponent(VelocityComponent.class);
-        assertEquals("2 components should have been added.", 2, manager.getComponentManager().getRegisteredComponentCount());
+    public void checkInitialComponentCount() {
+        assertEquals("No components should have been registered.", 0, world.getComponentManager().getRegisteredComponentCount());
     }
 
     @Test
-    public void checkRegisteredComponentCount_whenNoneAreRegistered() {
-        assertEquals("No components should have been added.", 0, manager.getComponentManager().getRegisteredComponentCount());
+    public void checkInitialComponentArrayCount() {
+        assertEquals("No component arrays should have been added.", 0, world.getComponentManager().getComponentArrayCount());
     }
 
     @Test
-    public void checkGetSystemAndSignature_shouldMatchOriginal() {
-        PositionSystem positionSystem = manager.registerSystem(PositionSystem.class);
-        manager.registerComponent(PositionComponent.class);
-
-        BitSet positionSystemSignature = new BitSet();
-        positionSystemSignature.set(manager.getComponentType(PositionComponent.class));
-        manager.setSystemSignature(PositionSystem.class, positionSystemSignature);
-
-        assertEquals("System signatures should match.", positionSystemSignature, manager.getSystemManager().getSystemSignature(positionSystem.getClass()));
-        assertEquals("Systems should match.", positionSystem, manager.getSystemManager().getSystem(positionSystem.getClass()));
+    public void checkInitialSystemCount() {
+        assertEquals("No systems should have been added.", 0, world.getSystemManager().getSystemCount());
     }
 }

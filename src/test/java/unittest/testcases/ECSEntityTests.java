@@ -8,38 +8,38 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
 
 public class ECSEntityTests {
-    private final World manager = new World();
+    private final World world = new World();
     private int[] entities;
 
     @Before
     public void init() {
-        manager.init(5);
+        world.init(5);
 
-        entities = new int[manager.getMaxEntities()];
+        entities = new int[world.getMaxEntities()];
         for (int i = 0; i < entities.length; i++) {
-            entities[i] = manager.createEntity();
+            entities[i] = world.createEntity();
         }
     }
 
     @Test
     public void checkLivingEntityCount_whenEntitiesArePresent() {
-        assertEquals("Entity count should match.", entities.length, manager.getEntityManager().getLivingEntityCount());
+        assertEquals("Entity count should match.", entities.length, world.getEntityManager().getLivingEntityCount());
     }
 
     @Test
     public void checkAvailableEntityCount_whenEntitiesArePresent() {
-        assertEquals("Entity count should match.", 0, manager.getEntityManager().getAvailableEntities());
+        assertEquals("Entity count should match.", 0, world.getEntityManager().getAvailableEntities());
     }
 
     @Test(expected = IllegalStateException.class)
     public void tryAddEntity_whenNoSpaceIsAvailable() {
-        manager.createEntity();
+        world.createEntity();
     }
 
     @Test
     public void checkEntitySignatures_shouldAllBeNull() {
         for (int entity : entities) {
-            assertNull("Entity signature should not have been created.", manager.getEntityManager().getSignature(entity));
+            assertNull("Entity signature should not have been created.", world.getEntityManager().getSignature(entity));
         }
     }
 }

@@ -1,16 +1,15 @@
 package unittest.testcases;
 
+import io.github.lucasstarsz.slopeecs.World;
 import org.junit.Before;
 import org.junit.Test;
-import io.github.lucasstarsz.slopeecs.World;
 import unittest.mock.components.PositionComponent;
 import unittest.mock.components.VelocityComponent;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
 
 public class ECSComponentTests {
-    private final World manager = new World();
+    private final World world = new World();
     private int[] entities;
     private PositionComponent[] positionComponents;
     private VelocityComponent[] velocityComponents;
@@ -18,52 +17,62 @@ public class ECSComponentTests {
     @Before
     public void initialize() {
         /* Initialize arrays and manager */
-        manager.init(2);
-        entities = new int[manager.getMaxEntities()];
-        positionComponents = new PositionComponent[manager.getMaxEntities()];
-        velocityComponents = new VelocityComponent[manager.getMaxEntities()];
+        world.init(2);
+        entities = new int[world.getMaxEntities()];
+        positionComponents = new PositionComponent[world.getMaxEntities()];
+        velocityComponents = new VelocityComponent[world.getMaxEntities()];
 
         /* Register components */
-        manager.registerComponent(PositionComponent.class);
-        manager.registerComponent(VelocityComponent.class);
+        world.registerComponent(PositionComponent.class);
+        world.registerComponent(VelocityComponent.class);
 
         /* Add components */
         for (int i = 0; i < entities.length; i++) {
-            entities[i] = manager.createEntity();
+            entities[i] = world.createEntity();
             positionComponents[i] = new PositionComponent();
             velocityComponents[i] = new VelocityComponent();
 
             positionComponents[i].x += (i + 1);
             velocityComponents[i].y += 145 * (i + 1);
 
-            manager.addComponent(entities[i], positionComponents[i]);
-            manager.addComponent(entities[i], velocityComponents[i]);
+            world.addComponent(entities[i], positionComponents[i]);
+            world.addComponent(entities[i], velocityComponents[i]);
         }
     }
 
     @Test
     public void checkGetComponents_shouldMatch() {
         for (int i = 0; i < entities.length; i++) {
-            assertEquals("Position components should match.", positionComponents[i], manager.getComponent(entities[i], PositionComponent.class));
-            assertEquals("Velocity components should match.", velocityComponents[i], manager.getComponent(entities[i], VelocityComponent.class));
+            assertEquals("Position components should match.", positionComponents[i], world.getComponent(entities[i], PositionComponent.class));
+            assertEquals("Velocity components should match.", velocityComponents[i], world.getComponent(entities[i], VelocityComponent.class));
         }
     }
 
     @Test
     public void checkComponentRegisteredCount_shouldMatchAdded() {
-        assertEquals("Component count should match the size of components created.", 2, manager.getComponentManager().getRegisteredComponentCount());
+        assertEquals("Component count should match the size of components created.", 2, world.getComponentManager().getRegisteredComponentCount());
     }
 
     @Test(expected = IllegalStateException.class)
-    public void tryGetComponent_afterRemoval() {
-        manager.removeComponent(entities[0], PositionComponent.class);
-        assertNull("Component count should match the size of components created.", manager.getComponent(entities[0], PositionComponent.class));
+    public void tryGetComponent_afterRemovalFromEntity() {
+        world.removeComponent(entities[0], PositionComponent.class);
+
+        // Should throw IllegalStateException
+        world.getComponent(entities[0], PositionComponent.class);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void tryGetComponent_afterAssociatedEntityRemoval() {
+        world.destroyEntity(entities[0]);
+
+        // Should throw IllegalStateException
+        world.getComponent(entities[0], PositionComponent.class);
     }
 
     @Test
-    public void checkGetComponentAfterRemovingEntity_shouldMatchOriginal() {
-        manager.destroyEntity(entities[0]);
-        assertEquals("Position components should match.", positionComponents[1], manager.getComponent(entities[1], PositionComponent.class));
-        assertEquals("Velocity components should match.", velocityComponents[1], manager.getComponent(entities[1], VelocityComponent.class));
+    public void checkGetComponentAfterRemovingOtherEntity_shouldMatchOriginal() {
+        world.destroyEntity(entities[0]);
+        assertEquals("Position components should match.", positionComponents[1], world.getComponent(entities[1], PositionComponent.class));
+        assertEquals("Velocity components should match.", velocityComponents[1], world.getComponent(entities[1], VelocityComponent.class));
     }
 }
