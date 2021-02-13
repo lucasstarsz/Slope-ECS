@@ -68,6 +68,7 @@ public class ECSSystemManager {
         // Create a reference to the system and return it so it can be used externally
         T system;
 
+        // use reflection to instantiate the system
         try {
             if (arguments == null) {
                 system = systemClass.getDeclaredConstructor().newInstance();
@@ -77,7 +78,7 @@ public class ECSSystemManager {
                 system = constructor.newInstance(arguments.values().toArray());
             }
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            throw new IllegalStateException(e.getMessage(), e.fillInStackTrace());
+            throw new IllegalStateException(e);
         }
 
         systems.put(typeName, system);
@@ -169,5 +170,14 @@ public class ECSSystemManager {
         }
 
         return system;
+    }
+
+    /**
+     * Gets the number of systems currently in the system manager.
+     *
+     * @return The number of systems in the system manager.
+     */
+    public int getSystemCount() {
+        return systems.values().size();
     }
 }
