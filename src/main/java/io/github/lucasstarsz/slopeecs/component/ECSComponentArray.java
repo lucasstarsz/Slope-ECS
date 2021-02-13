@@ -1,8 +1,6 @@
 package io.github.lucasstarsz.slopeecs.component;
 
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -31,9 +29,9 @@ public class ECSComponentArray<T extends IComponent> implements IComponentArray 
     private final int maxEntities;
 
     /** A map from an entity ID to an array index. */
-    private final Dictionary<Integer, Integer> entityToIndexMap = new Hashtable<>();
+    private final Map<Integer, Integer> entityToIndexMap;
     /** A map from an array index to an entity ID. */
-    private final Map<Integer, Integer> indexToEntityMap = new HashMap<>();
+    private final Map<Integer, Integer> indexToEntityMap;
     /** Total size of valid entries in the component array. */
     private int validEntries;
 
@@ -46,6 +44,8 @@ public class ECSComponentArray<T extends IComponent> implements IComponentArray 
     public ECSComponentArray(int maxEntityCount) {
         this.maxEntities = maxEntityCount;
         componentArray = (T[]) new IComponent[maxEntities];
+        entityToIndexMap = new HashMap<>();
+        indexToEntityMap = new HashMap<>();
     }
 
     /**
@@ -118,7 +118,14 @@ public class ECSComponentArray<T extends IComponent> implements IComponentArray 
      */
     @Override
     public void entityDestroyed(int entity) {
-        if (!entityToIndexMap.get(entity).equals(entityToIndexMap.get(validEntries - 1))) {
+        Integer idx = entityToIndexMap.get(entity);
+        if (idx == null) {
+            return;
+        }
+
+        if (idx.equals(entityToIndexMap.get(entityToIndexMap.size()))) {
+            throw new IllegalStateException("Entity with ID: " + entity + " does not have data in this component array.");
+        } else {
             removeData(entity);
         }
     }
