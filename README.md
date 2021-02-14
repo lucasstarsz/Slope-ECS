@@ -2,7 +2,7 @@
 [![Ubuntu Build/Test Status][Ubuntu-Build-SVG]][Ubuntu-Build-Action]
 [![Windows Build/Test Status][Windows-Build-SVG]][Windows-Build-Action]
 
-An pre-allocative, Java-based Entity Component System.
+A pre-allocative, Java-based Entity Component System.
 
 
 [Ubuntu-Build-Action]: https://github.com/lucasstarsz/Slope-ECS/actions?query=workflow%3AUbuntu-Build-Test "Ubuntu Build/Test Status"
