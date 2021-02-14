@@ -133,7 +133,7 @@ public class ECSSystemTests {
     }
 
     @Test
-    public void checkSystemEntityCount_afterEntitiesWereRemoved() {
+    public void checkSystemEntityCount_afterEntityIsRemoved() {
         world.destroyEntity(singleEntity);
         assertEquals("Entity count in GravitySystem should be 0 after its only entity was destroyed.", 0, gravitySystem.getEntityCount());
     }
