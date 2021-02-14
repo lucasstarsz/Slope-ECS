@@ -1,4 +1,7 @@
-name: Windows-Build-Test
+
+# This workflow builds Valley Game Engine (VGE) on the latest version of Windows using Gradle
+
+name: Build-Windows
 
 on:
   push:
@@ -7,21 +10,16 @@ on:
     branches: [ main ]
 
 jobs:
-  build-windows:
+  build-macos:
 
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 15
-      uses: actions/setup-java@v1
-      with:
-        java-version: '15'
-        architecture: x64
-    - name: Build
-      run: ./gradlew build -x publish -x test
-      env:
-        ossrhUsername: ${{secrets.ossrhUsername}}
-        ossrhPassword: ${{secrets.ossrhPassword}}
-    - name: Test
-      run: ./gradlew test
+      - uses: actions/checkout@v2
+      - name: Set up JDK 15
+        uses: actions/setup-java@v1
+        with:
+          java-version: '15'
+          architecture: x64
+      - name: Build using Gradle
+        run: ./gradlew build
