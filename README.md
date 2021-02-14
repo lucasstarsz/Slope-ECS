@@ -5,6 +5,8 @@
 
 A pre-allocative Entity Component System written in Java.
 
+This repository is licensed under the [MIT License][MIT License].
+
 [Windows-Build-Action]: https://github.com/lucasstarsz/Slope-ECS/actions?query=workflow%3ABuild-Windows "Actions: Windows Build"
 [Windows-Build-SVG]: https://github.com/lucasstarsz/Slope-ECS/workflows/Build-Windows/badge.svg
 
@@ -13,3 +15,5 @@ A pre-allocative Entity Component System written in Java.
 
 [MacOS-Build-Action]: https://github.com/lucasstarsz/Slope-ECS/actions?query=workflow%3ABuild-MacOS "Actions: Mac OS Build"
 [MacOS-Build-SVG]: https://github.com/lucasstarsz/Slope-ECS/workflows/Build-MacOS/badge.svg
+
+[MIT License]: LICENSE.txt
