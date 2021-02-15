@@ -38,7 +38,7 @@ This repository is licensed under the [MIT License][MIT-License].
 [MacOS-Build-Action]: https://github.com/lucasstarsz/Slope-ECS/actions?query=workflow%3ABuild-MacOS "Actions: Mac OS Build"
 [MacOS-Build-SVG]: https://github.com/lucasstarsz/Slope-ECS/workflows/Build-MacOS/badge.svg
 
-[Maven-Central]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstasrz/slope-ecs "Slope ECS on Maven Central"
+[Maven-Central]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstarsz/slope-ecs "Slope ECS on Maven Central"
 [Maven-Central-SVG]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstarsz/slope-ecs/badge.svg
 
 [Javadoc]: https://javadoc.io/doc/io.github.lucasstarsz/slope-ecs "Slope ECS Documentation"
