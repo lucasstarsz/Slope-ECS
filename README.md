@@ -16,17 +16,17 @@ This repository is licensed under the [MIT License][MIT-License].
 <dependency>
   <groupId>io.github.lucasstarsz</groupId>
   <artifactId>slope-ecs</artifactId>
-  <version>[Latest Version here]</version>
+  <version>[latest version here]</version>
 </dependency>
 ```
 - **Gradle**
     - Groovy:
     ```groovy
-    implementation 'io.github.lucasstarsz:slope-ecs:[Latest Version here]'
+    implementation 'io.github.lucasstarsz:slope-ecs:[latest version here]'
     ```
     - Kotlin:
     ```kotlin
-    implementation("io.github.lucasstarsz:slope-ecs:[Latest Version here]")
+    implementation("io.github.lucasstarsz:slope-ecs:[latest version here]")
     ```
 
 ## How to use
