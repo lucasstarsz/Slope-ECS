@@ -10,7 +10,7 @@ Slope is an Entity Component System written entirely in Java.
 
 This repository is licensed under the [MIT License][MIT-License].
 
-## Usage
+## Adding to your project
 - **Maven**
 ```xml
 <dependency>
@@ -28,6 +28,10 @@ This repository is licensed under the [MIT License][MIT-License].
     ```kotlin
     implementation("io.github.lucasstarsz:slope-ecs:[Latest Version here]")
     ```
+
+## How to use
+Check out [these examples](examples/).
+
 
 [Windows-Build-Action]: https://github.com/lucasstarsz/Slope-ECS/actions?query=workflow%3ABuild-Windows "Actions: Windows Build"
 [Windows-Build-SVG]: https://github.com/lucasstarsz/Slope-ECS/workflows/Build-Windows/badge.svg
