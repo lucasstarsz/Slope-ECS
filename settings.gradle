@@ -9,3 +9,5 @@
 
 rootProject.name = 'Slope-ECS'
 include('Slope-ECS')
+include('examples')
+
