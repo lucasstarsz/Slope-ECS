@@ -9,7 +9,7 @@ plugins {
     id 'signing'
 }
 
-group('io.github.lucasstarsz')
+group('io.github.lucasstarsz.slopeecs')
 version('0.0.6')
 
 repositories {
