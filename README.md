@@ -6,7 +6,7 @@
 [![javadoc][Javadoc-SVG]][Javadoc]
 [![maven central][Maven-Central-SVG]][Maven-Central]
 
-A pre-allocative Entity Component System written in Java.
+Slope is an Entity Component System written entirely in Java.
 
 This repository is licensed under the [MIT License][MIT-License].
 
