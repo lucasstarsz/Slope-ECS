@@ -1,6 +1,7 @@
 /**
- * An example usage of Slope ECS: A guessing game.
+ * A small example game made using Slope-ECS.
  * <p>
- * Your goal in this game is to find the special entity with the secret number.
+ * Your goal is to find the "special" number among the shown numbers. All source code for this example is also found
+ * here.
  */
 package examples.guessinggame;
