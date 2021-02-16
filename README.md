@@ -30,7 +30,7 @@ This repository is licensed under the [MIT License][MIT-License].
     ```
 
 ## How to use
-Check out [these examples](examples).
+Check out [these examples](src/examples).
 
 
 [Windows-Build-Action]: https://github.com/lucasstarsz/Slope-ECS/actions?query=workflow%3ABuild-Windows "Actions: Windows Build"
