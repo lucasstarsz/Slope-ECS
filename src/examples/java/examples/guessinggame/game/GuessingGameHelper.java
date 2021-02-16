@@ -3,16 +3,16 @@ package examples.guessinggame.game;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.Set;
 
 public class GuessingGameHelper {
     public static final BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
-    public static int getNumber(Integer[] accepted) throws IOException {
+    public static int getNumber(Set<Integer> accepted) throws IOException {
         int result;
 
         while (true) {
-            System.out.println(Arrays.toString(accepted));
+            System.out.println(accepted);
             System.out.print("Enter a number from above: ");
 
             try {
@@ -23,7 +23,7 @@ public class GuessingGameHelper {
             }
 
             int finalResult = result;
-            if (Arrays.stream(accepted).anyMatch(n -> n == finalResult)) {
+            if (accepted.stream().anyMatch(n -> n == finalResult)) {
                 return result;
             } else {
                 System.out.println("Invalid input: Number must be one of the values above.");
