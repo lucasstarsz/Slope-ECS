@@ -5,7 +5,32 @@
  *
  * For those of you aspiring to make examples, give it your best effort! Remember, we require clean
  * code in order for the example to be accepted -- try to make the program relatively easy to
- * understand, execute, and (if it's a game) play through. */
+ * understand, execute, and (if it's a game) play through.
+ *
+ * This is heavily based on RichTextFX's demos implementation, so give them a look-see when you get
+ * a chance: https://github.com/FXMisc/RichTextFX */
+
+task examples(description: "Lists each example program, and a short description of it such that it can be run by a Gradle task.") {
+    doLast {
+        // get examples
+        def examplesList = []
+        tasks.withType(JavaExec) {
+            if (it.name.endsWith("Example")) {
+                examplesList.add(it)
+            }
+        }
+
+        // sort examples
+        examplesList.sort {
+            first, next -> first.name <=> next.name
+        }.each {
+            println("""
+Slope-ECS Examples
+------------------""")
+            println("$it.name: $it.description")
+        }
+    }
+}
 
 sourceSets {
     examples {
