@@ -1,0 +1,32 @@
+/* This is where all tasks for example usages of Slope-ECS go.
+ *
+ * When creating an example usage, a task must be created for the program here, following the
+ * provided template.
+ *
+ * For those of you aspiring to make examples, give it your best effort! Remember, we require clean
+ * code in order for the example to be accepted -- try to make the program relatively easy to
+ * understand, execute, and (if it's a game) play through. */
+
+sourceSets {
+    examples {
+        /*
+        To add a task for an example, use the following template:
+
+        task MainClassExample(type: JavaExec) {
+            // standardInput = System.in // Uncomment this if you need user input.
+
+            description('A description of your Slope-ECS example usage.')
+            classpath = sourceSets.examples.runtimeClasspath
+            main = 'examples.classpackage.MainClassExample'
+        }
+         */
+
+        task GuessingGameExample(type: JavaExec) {
+            standardInput = System.in
+
+            description('An example usage of Slope-ECS: a guessing game.')
+            classpath = files(sourceSets.main.output, sourceSets.examples.runtimeClasspath)
+            main = 'examples.guessinggame.GuessingGameExample'
+        }
+    }
+}

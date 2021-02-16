@@ -9,17 +9,26 @@ plugins {
     id 'signing'
 }
 
+apply from: 'examples.gradle'
+
 group('io.github.lucasstarsz.slopeecs')
 version('0.0.6')
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
 dependencies {
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13'
+}
+
+// Source
+sourceSets {
+    examples {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
 }
 
 // Build

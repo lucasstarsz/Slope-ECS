@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'Slope-ECS'
-include('examples')
+include('Slope-ECS')
