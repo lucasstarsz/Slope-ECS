@@ -116,7 +116,7 @@ if (shouldPublish) {
 
                 pom {
                     name = 'Slope ECS'
-                    description = 'A pre-allocative Entity Component System written in Java.'
+                    description = 'An Entity Component System written in Java.'
                     url = 'https://github.com/lucasstarsz/Slope-ECS'
 
                     scm {
