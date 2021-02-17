@@ -2,8 +2,7 @@
 This is the 'examples' section of Slope-ECS. 
 
 ## How to Run
-- Each example is listed in the `examples` task, which you call like so: `./gradlew examples`. (In some terminals, you may need to replace `\\` with `/`.)
-  That task prints out each example program available. 
+- Each example is listed in the `examples` task, which you call like so: `./gradlew examples`. That task prints out each example program available. 
   
 - To run that program, call the name of the task. For example:
     ```bash
@@ -16,6 +15,7 @@ This is the 'examples' section of Slope-ECS.
     F:\Slope-ECS>./gradlew GuessingGameExample
     # guessing game is being run!
     ```
+  Having trouble using `gradlew`? Read [this][Terminals Are Different].
   
 ## Examples
 - [Guessing Game][Guessing Game Package]
@@ -24,6 +24,8 @@ This is the 'examples' section of Slope-ECS.
 Details are still TBD, but if you would like to create an example you can make a fork of the repository
 and [open a pull request][Pull Request].
 
+
+[Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
 
 [Guessing Game Package]: java/examples/guessinggame "Slope-ECS: Guessing Game Example"
 
