@@ -12,7 +12,7 @@ public class GuessingGame {
     private final int entityAmount = 10;
 
     private int guesses;
-    private final int specialEntity = (int) ((Math.random() * entityAmount) + 1);
+    private final int specialEntity = (int) (Math.random() * entityAmount);
 
     private final World guessingWorld;
     private NumberSystem numberSystem;
