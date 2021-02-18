@@ -119,15 +119,11 @@ public class ECSComponentArray<T extends IComponent> implements IComponentArray 
     @Override
     public void entityDestroyed(int entity) {
         Integer idx = entityToIndexMap.get(entity);
-        if (idx == null) {
+        if (idx == null || idx.equals(entityToIndexMap.get(entityToIndexMap.size()))) {
             return;
         }
 
-        if (idx.equals(entityToIndexMap.get(entityToIndexMap.size()))) {
-            throw new IllegalStateException("Entity with ID: " + entity + " does not have data in this component array.");
-        } else {
-            removeData(entity);
-        }
+        removeData(entity);
     }
 
     /**
