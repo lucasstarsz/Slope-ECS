@@ -47,17 +47,20 @@ a[name] {
     color: #353833;
 }
 
-pre {
+.block pre {
     font-family: 'DejaVu Sans Mono', monospace;
     font-size: 14px;
 
-    background-color: #323232;
+    background-color: #313131;
 
     border-style: solid;
     border-color: #000000;
     border-width: 1px;
     border-radius: .5em;
-    padding: .75em;
+    padding: .75em .5em;
+
+    overflow-wrap: normal;
+    white-space: pre-wrap;
 }
 
 h1 {
