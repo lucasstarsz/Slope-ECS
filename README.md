@@ -22,7 +22,7 @@ A few common dependencies are provided below:
 - **Maven**
   ```xml
   <dependency>
-    <groupId>io.github.lucasstarsz</groupId>
+    <groupId>io.github.lucasstarsz.slopeecs</groupId>
     <artifactId>slope-ecs</artifactId>
     <version>[latest version here]</version>
   </dependency>
@@ -30,15 +30,15 @@ A few common dependencies are provided below:
 - **Gradle**
     - Groovy:
       ```groovy
-      implementation 'io.github.lucasstarsz:slope-ecs:[latest version here]'
+      implementation 'io.github.lucasstarsz.slopeecs:slope-ecs:[latest version here]'
       ```
     - Kotlin:
       ```kotlin
-      implementation("io.github.lucasstarsz:slope-ecs:[latest version here]")
+      implementation("io.github.lucasstarsz.slopeecs:slope-ecs:[latest version here]")
       ```
 - **Apache Ivy**
   ```xml
-  <dependency org="io.github.lucasstarsz" name="slope-ecs" rev="[latest version here]" />
+  <dependency org="io.github.lucasstarsz.slopeecs" name="slope-ecs" rev="[latest version here]" />
   ```
 
 ### Using Slope-ECS
