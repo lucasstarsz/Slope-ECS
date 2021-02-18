@@ -12,7 +12,7 @@ plugins {
 apply from: 'examples.gradle'
 
 group('io.github.lucasstarsz.slopeecs')
-version('0.0.6')
+version('0.0.7')
 
 repositories {
     mavenCentral()
