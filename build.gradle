@@ -43,7 +43,7 @@ jar {
         attributes(
                 'Implementation-Title': 'slope-ecs',
                 'Implementation-Version': project.version,
-                'Module-Name': 'Slope.ECS'
+                'Module-Name': 'slope.ecs'
         )
     }
 }
