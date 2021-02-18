@@ -77,11 +77,11 @@ From here, you have successfully built Slope-ECS.
 [MacOS-Build-Action]: https://github.com/lucasstarsz/Slope-ECS/actions?query=workflow%3ABuild-MacOS "Mac OS Build Status"
 [MacOS-Build-SVG]: https://github.com/lucasstarsz/Slope-ECS/workflows/Build-MacOS/badge.svg
 
-[Maven-Central]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstarsz/slope-ecs "Slope ECS on Maven Central"
-[Maven-Central-SVG]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstarsz/slope-ecs/badge.svg
+[Maven-Central]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstarsz.slopeecs/slope-ecs "Slope ECS on Maven Central"
+[Maven-Central-SVG]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstarsz.slopeecs/slope-ecs/badge.svg
 
-[JavaDoc]: https://javadoc.io/doc/io.github.lucasstarsz/slope-ecs "Slope ECS Documentation"
-[JavaDoc-SVG]: https://javadoc.io/badge2/io.github.lucasstarsz/slope-ecs/javadoc.svg
+[JavaDoc]: https://javadoc.io/doc/io.github.lucasstarsz.slopeecs/slope-ecs "Slope ECS Documentation"
+[JavaDoc-SVG]: https://javadoc.io/badge2/io.github.lucasstarsz.slopeecs/slope-ecs/javadoc.svg
 
 [MIT-License]: LICENSE.txt "MIT Licensing"
 
