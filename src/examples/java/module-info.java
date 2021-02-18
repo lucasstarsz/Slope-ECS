@@ -2,5 +2,5 @@
  * This module contains all the examples for <a href="https://github.com/lucasstarsz/Slope-ECS">Slope ECS</a>.
  */
 module Slope.ECS.examples {
-    requires Slope.ECS;
+    requires slope.ecs;
 }
