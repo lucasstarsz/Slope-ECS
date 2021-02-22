@@ -13,8 +13,7 @@
 </div>
 
 ## About Slope
-Slope is a developer-friendly Entity Component System library written in pure Java. It enables developers 
-of all kinds to create games and other software via a no-nonsense, cross-platform, open-source code library.
+Slope is a developer-friendly Entity Component System written in pure Java. It enables developers of all kinds to create games and other software built on a no-nonsense, cross-platform, open-source code library.
 
 ## Highlights
 - [x] **Cross Platform** - Fully supports all major desktop platforms (Linux, macOS, Windows)
@@ -25,16 +24,15 @@ of all kinds to create games and other software via a no-nonsense, cross-platfor
     - Under the [MIT License][MIT-License], you're free to use and modify this library for your own needs.
 
 ## Adding Slope-ECS to your project
-This repository can be found on [Maven Central][Maven-Central] -- as such, it can be easily added to your 
-project as a dependency through the use of a build tool.
+This repository can be found on [Maven Central][Maven-Central] -- as such, it can be easily added to your project as a dependency through the use of a build tool.
 
 ### Requirements
-- [Java 15][AdoptOpenJDK-Link] or later
+- [Java 15][AdoptOpenJDK-Link] or later.
+    - **IMPORTANT**: The eventual target Java version will be Java 17.
 - A build tool, such as [Maven][Maven-Link] or [Gradle][Gradle-Link].
 
 ### Adding the Dependency
-When adding the dependency, **make sure to replace `[latest version here]` with the actual latest version**
-(you'll find this in the Maven Central link up above).
+When adding the dependency, **make sure to replace `[latest version here]` with the actual latest version** (you'll find this in the Maven Central link up above).
 
 A few common dependencies are provided below:
 
@@ -62,19 +60,16 @@ A few common dependencies are provided below:
 
 ## Learning Slope-ECS
 
-### Wiki
-Slope's [wiki][Wiki-Link] is still a work in progress -- as I have more time to work on it, much more will be added.
-Regardless, it is highly recommended that you read it in order to understand how Slope-ECS works.
+### The Wiki
+I highly recommend Slope's [wiki][Wiki-Link], as it will almost always contain the most up-to-date information on understanding how Slope-ECS works. It _is_ still a work in progress -- as I have more time to work on it, much more will be added to it.
 
-### Examples
-After getting an understanding of how Slope works, [these example programs](src/examples) are the best way to learn
-about using Slope in an actual project.
+### Code Examples
+After getting an understanding of how Slope works, [these example programs](src/examples) are the best way to learn about using Slope in an actual project.
 
 ## Building the Source Code
 Building Slope's source code is a very easy task. You just need to follow these steps:
 
-1. If you don't already have it, download [Git][Git-Link]. It's a powerful source control 
-  tool, and is the same source control that Slope-ECS uses.
+1. If you don't already have it, download [Git][Git-Link]. It's a powerful source control tool, and is the same source control that Slope-ECS uses.
     - You don't need to have Gradle installed to build `Slope-ECS` -- Gradle projects come with the build tool.
 
 2. Using Git, clone the Slope-ECS repository.
@@ -82,8 +77,7 @@ Building Slope's source code is a very easy task. You just need to follow these 
     git clone https://github.com/lucasstarsz/Slope-ECS.git
     ```
 
-3. Once you've entered the top directory of the project (`cd Slope-ECS`), build the project using the `gradlew`
-  file.
+3. Once you've entered the top directory of the project (`cd Slope-ECS`), build the project using the `gradlew` file.
     - On Windows, you'll want to use the `gradlew.bat` file. 
     - For Unix-based systems, you'll need to use the `gradlew.sh` file (after giving it proper execution permissions).
     ```bash
@@ -116,6 +110,6 @@ This repository is licensed under the [MIT License][MIT-License].
 [Git-Link]: https://git-scm.com/ "Git Source Control Manager"
 [Wiki-Link]: https://github.com/lucasstarsz/Slope-ECS/wiki "Slope-ECS Wiki"
 
-[MIT-License]: LICENSE.txt "MIT Licensing"
-
 [Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
+
+[MIT-License]: LICENSE.txt "MIT Licensing"
