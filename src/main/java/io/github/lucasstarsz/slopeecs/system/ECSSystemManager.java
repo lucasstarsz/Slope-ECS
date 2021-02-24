@@ -31,6 +31,7 @@ public class ECSSystemManager {
      * Registers the specified class as a system in the manager, returning a new system of type T, constructed with the
      * specified arguments.
      * <p>
+     * <h3>About</h3>
      * The arguments for construct the system are formatted as a {@code java.util.LinkedHashMap}. Specifically a {@code
      * LinkedHashMap}, in order to retain the order of the arguments you put in. Each entry in the map must be formatted
      * such that:
@@ -38,19 +39,20 @@ public class ECSSystemManager {
      *     <li>The {@code key} is the class of the argument.</li>
      *     <li>The {@code value} is the actual argument.</li>
      * </ul>
-     * Implementation:
+     * <p>
+     * <h3>Example Usages</h3>
      * <pre>{@code
-     *     String param1 = "parameter 1";
-     *     int param2 = 42;
-     *     CustomClass param3 = new CustomClass();
+     * String param1 = "parameter 1";
+     * int param2 = 42;
+     * CustomClass param3 = new CustomClass();
      *
-     *     LinkedHashMap arguments = new LinkedHashMap<>() {{
-     *         put(String.class, param1);
-     *         put(int.class, param2);
-     *         put(CustomClass.class, param3);
-     *     }};
+     * LinkedHashMap arguments = new LinkedHashMap<>() {{
+     *     put(String.class, param1);
+     *     put(int.class, param2);
+     *     put(CustomClass.class, param3);
+     * }};
      *
-     *     MySystem system = ecsSystemManager.registerSystem(MySystem.class, arguments);
+     * MySystem system = ecsSystemManager.registerSystem(MySystem.class, arguments);
      * }</pre>
      *
      * @param systemClass The class to register as a system.
