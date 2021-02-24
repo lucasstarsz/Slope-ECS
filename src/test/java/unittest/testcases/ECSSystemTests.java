@@ -24,7 +24,6 @@ public class ECSSystemTests {
     VelocityComponent singleVelocityComponent;
 
     private int[] entities;
-    private final int maxEntityCount = 4;
     private PositionComponent[] positionComponents;
 
     private GravitySystem gravitySystem;
@@ -35,7 +34,7 @@ public class ECSSystemTests {
     @Before
     public void initialize() {
         /* Initialize ecs world */
-        world.init(maxEntityCount);
+        world.init(4);
 
         /* Initialize arrays */
         entities = new int[world.getMaxEntities() - 1];
@@ -114,12 +113,12 @@ public class ECSSystemTests {
 
     @Test
     public void checkSystemEntityCount_whenSystemHasSomeComponents() {
-        assertEquals("All entities with the PositionComponent component should be found in PositionSystem.", maxEntityCount, positionSystem.getEntityCount());
+        assertEquals("All entities with the PositionComponent component should be found in PositionSystem.", world.getMaxEntities(), positionSystem.getEntityCount());
     }
 
     @Test
     public void checkSystemEntityCount_whenSystemHasNoComponents() {
-        assertEquals("All entities should be found in EmptySystem.", maxEntityCount, emptySystem.getEntityCount());
+        assertEquals("All entities should be found in EmptySystem.", world.getMaxEntities(), emptySystem.getEntityCount());
     }
 
     @Test
