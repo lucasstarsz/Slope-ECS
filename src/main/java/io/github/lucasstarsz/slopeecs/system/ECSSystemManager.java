@@ -42,17 +42,17 @@ public class ECSSystemManager {
      * <p>
      * <h3>Example Usages</h3>
      * <pre>{@code
-     * String param1 = "parameter 1";
-     * int param2 = 42;
-     * CustomClass param3 = new CustomClass();
+     * // Assume classes SomeSystem and CustomClass exist.
+     * // Assume the SomeSystem class has a constructor that takes a String, int, and CustomClass instance.
+     * ECSSystemManager systemManager = new ECSSystemManager();
      *
      * LinkedHashMap arguments = new LinkedHashMap<>() {{
-     *     put(String.class, param1);
-     *     put(int.class, param2);
-     *     put(CustomClass.class, param3);
+     *     put(String.class, "parameter 1");
+     *     put(int.class, 42);
+     *     put(CustomClass.class, new CustomClass());
      * }};
      *
-     * MySystem system = ecsSystemManager.registerSystem(MySystem.class, arguments);
+     * SomeSystem system = systemManager.registerSystem(SomeSystem.class, arguments);
      * }</pre>
      *
      * @param systemClass The class to register as a system.
