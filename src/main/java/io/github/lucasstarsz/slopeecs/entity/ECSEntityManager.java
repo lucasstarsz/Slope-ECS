@@ -60,12 +60,14 @@ public class ECSEntityManager {
      * @param entity The ID of the entity to destroy.
      */
     public void destroyEntity(int entity) {
-        if (entity > maxEntities) {
-            throw new IllegalStateException("Entity " + entity + " out of range.");
+        if (!isAlive(entity)) {
+            throw new IllegalStateException("Entity " + entity + " is not alive in the ECS.");
         }
 
         // invalidate the destroyed entity's signature
-        entitySignatures[entity].clear();
+        if (entitySignatures[entity] != null) {
+            entitySignatures[entity].clear();
+        }
 
         // Put the destroyed ID at the back of the queue
         availableEntities.push(entity);
@@ -79,8 +81,8 @@ public class ECSEntityManager {
      * @param signature The signature to set.
      */
     public void setSignature(int entity, BitSet signature) {
-        if (entity > maxEntities) {
-            throw new IllegalStateException("Entity " + entity + " out of range.");
+        if (!isAlive(entity)) {
+            throw new IllegalStateException("Entity " + entity + " is not alive in the ECS.");
         }
 
         // Put this entity's signature into the array
@@ -94,12 +96,32 @@ public class ECSEntityManager {
      * @return The signature corresponding to the specified entity.
      */
     public BitSet getSignature(int entity) {
-        if (entity > maxEntities) {
-            throw new IllegalStateException("Entity " + entity + " out of range.");
+        if (!isAlive(entity)) {
+            throw new IllegalStateException("Entity " + entity + " is not alive in the ECS.");
         }
 
         // Get this entity's signature from the array
         return entitySignatures[entity];
+    }
+
+    /**
+     * Checks whether the specified entity is currently alive.
+     *
+     * @param entity The entity to check.
+     * @return Whether the entity exists.
+     */
+    public boolean isAlive(int entity) {
+        if (entity < 0 || entity > maxEntities) {
+            throw new IllegalStateException("Entity " + entity + " out of range.");
+        }
+
+        for (int e : availableEntities) {
+            if (e == entity) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
