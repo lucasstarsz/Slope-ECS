@@ -12,7 +12,8 @@ import java.util.LinkedHashMap;
  * Before this class, developers were required to handle the signature (as a {@link BitSet}) of the system themselves,
  * requiring more work as well as an understanding of bits, bitwise operations, and of using the {@code BitSet} class,
  * like so:
- * <pre>{@code  // Assume TransformComponent, VelocityComponent, and TransformSystem are all classes
+ * <pre>{@code
+ * // Assume TransformComponent, VelocityComponent, and TransformSystem are all classes
  * // where TransformComponent and VelocityComponent implement IComponent, and
  * // TransformSystem extends ECSSystem.
  * //
@@ -27,7 +28,8 @@ import java.util.LinkedHashMap;
  * world.setSystemSignature(TransformSystem.class, transformSystemSignature);
  *
  * // we can now use transformSystem
- * // hopefully we didn't forget anything...}</pre>
+ * // hopefully we didn't forget anything...
+ * }</pre>
  * <p>
  * This was too much of a hassle for a developer to deal with, unless they're willing to get into the nitty-gritty of
  * the ECS. Furthermore, it raises the entry barrier for newer developers who lack experience with bits and bit
@@ -35,14 +37,16 @@ import java.util.LinkedHashMap;
  * <p>
  * As a result, this builder class was developed, allowing the user a more readable interface for creating a system. The
  * result:
- * <pre>{@code  // assume the same as last time
+ * <pre>{@code
+ * // assume the same as last time
  *
  * TransformSystem transformSystem = new ECSSystemBuilder<>(world, TransformSystem.class)
  *         .withComponent(TransformComponent.class)
  *         .withComponent(VelocityComponent.class)
  *         .build();
  *
- * // we can now use transformSystem, woohoo!}</pre>
+ * // we can now use transformSystem, woo!
+ * }</pre>
  *
  * @param <T> The generic type of the system to create. Uses of {@code T} must extend {@code ECSSystem}.
  */
