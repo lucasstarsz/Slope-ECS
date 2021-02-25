@@ -3,4 +3,5 @@
  */
 module Slope.ECS.examples {
     requires slope.ecs;
+    opens examples.guessinggame.systems to slope.ecs;
 }
