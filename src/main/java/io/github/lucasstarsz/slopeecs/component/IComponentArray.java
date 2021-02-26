@@ -9,6 +9,8 @@ import io.github.lucasstarsz.slopeecs.entity.ECSEntityManager;
  * <h3>About</h3>
  * This interface is needed so that the {@code ECSComponentManager} can tell a generic {@code ECSComponentArray} that an
  * entity has been destroyed and it needs to update its array mappings.
+ *
+ * @author Andrew Dey
  */
 public interface IComponentArray {
     /**
@@ -20,6 +22,7 @@ public interface IComponentArray {
      * {@link World#destroyEntity(int)}
      *
      * @param entity The entity which was destroyed.
+     * @author Andrew Dey
      */
     void entityDestroyed(int entity);
 }

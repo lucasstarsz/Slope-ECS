@@ -10,6 +10,8 @@ package io.github.lucasstarsz.slopeecs.component;
  *     <li>These components are designed as Plain Old Data (POD). As such they should not contain logic, only data to be
  *     operated on.</li>
  * </ul>
+ *
+ * @author Andrew Dey
  */
 public interface IComponent {
 }

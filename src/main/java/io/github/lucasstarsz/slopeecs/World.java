@@ -21,6 +21,8 @@ import java.util.LinkedHashMap;
  * In order to see this class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
  * understanding of how to make use of Slope.
+ *
+ * @author Andrew Dey
  */
 public class World {
 
@@ -52,6 +54,7 @@ public class World {
      * the class is not yet usable. In order to prepare a {@code World} for use, you must call one of its {@code init}
      * methods.
      *
+     * @author Andrew Dey
      * @see #init()
      * @see #init(int)
      */
@@ -79,6 +82,7 @@ public class World {
      * // Entity count: 1000
      * }</pre>
      *
+     * @author Andrew Dey
      * @see #init(int)
      */
     public void init() {
@@ -124,6 +128,7 @@ public class World {
      * }</pre>
      *
      * @param maxEntityCount The maximum number of entities to allow within the ECS.
+     * @author Andrew Dey
      */
     public void init(int maxEntityCount) {
         if (maxEntityCount < 1) {
@@ -179,6 +184,7 @@ public class World {
      * }</pre>
      *
      * @return The id of the created entity.
+     * @author Andrew Dey
      */
     public int createEntity() {
         return entityManager.createEntity();
@@ -234,6 +240,7 @@ public class World {
      *
      * @param entity The entity to destroy. This value should be a valid entity that has been created -- and is still
      *               alive -- in the {@link World}.
+     * @author Andrew Dey
      */
     public void destroyEntity(int entity) {
         entityManager.destroyEntity(entity);
@@ -275,6 +282,7 @@ public class World {
      * @param componentClass The class to register as a possible container for components.
      * @param <T>            The generic type of the class to register as a possible entity component. Uses of {@code T}
      *                       must extend {@code IComponent}.
+     * @author Andrew Dey
      */
     public <T extends IComponent> void registerComponent(Class<T> componentClass) {
         componentManager.registerComponent(componentClass);
@@ -331,6 +339,7 @@ public class World {
      * @param component The component to bind.
      * @param <T>       The generic type of the component to be bound. Uses of {@code T} must implement {@code
      *                  IComponent}.
+     * @author Andrew Dey
      */
     public <T extends IComponent> void addComponent(int entity, T component) {
         componentManager.addComponent(entity, component);
@@ -392,6 +401,7 @@ public class World {
      * @param componentClass The class of the component to be removed.
      * @param <T>            The generic type of the class which matches the class of the component to remove. Uses of
      *                       {@code T} must implement {@code IComponent}.
+     * @author Andrew Dey
      */
     public <T extends IComponent> void removeComponent(int entity, Class<T> componentClass) {
         componentManager.removeComponent(entity, componentClass);
@@ -441,6 +451,7 @@ public class World {
      * @param <T>            The generic type of the class of the component to get. Uses of {@code T} must extend {@code
      *                       IComponent}.
      * @return The component of the entity and class requested.
+     * @author Andrew Dey
      */
     public <T extends IComponent> T getComponent(int entity, Class<T> componentClass) {
         return componentManager.getComponent(entity, componentClass);
@@ -490,6 +501,7 @@ public class World {
      * @param <T>            The generic type of the component to be bound. Uses of {@code T} must implement {@code
      *                       IComponent}.
      * @return The type of the component class, as an integer.
+     * @author Andrew Dey
      */
     public <T extends IComponent> int getComponentType(Class<T> componentClass) {
         return componentManager.getComponentType(componentClass);
@@ -522,6 +534,7 @@ public class World {
      * @param <T>         The generic type of the system to create and register. Uses of {@code T} must extend {@code
      *                    ECSSystem}.
      * @return The created and registered {@code ECSSystem}.
+     * @author Andrew Dey
      */
     public <T extends ECSSystem> T registerSystem(Class<T> systemClass) {
         return registerSystem(systemClass, null);
@@ -554,6 +567,7 @@ public class World {
      * @param <T>         The generic type of the system to create and register. Uses of {@code T} must extend {@code
      *                    ECSSystem}.
      * @return The created and registered {@code ECSSystem}.
+     * @author Andrew Dey
      * @see ECSSystemManager#registerSystem(Class, LinkedHashMap)
      */
     public <T extends ECSSystem> T registerSystem(Class<T> systemClass, LinkedHashMap<Class<?>, Object> arguments) {
@@ -597,6 +611,7 @@ public class World {
      * @param signature   The signature to set.
      * @param <T>         The generic type of the system to set the signature for. Uses of {@code T} must extend {@code
      *                    ECSSystem}.
+     * @author Andrew Dey
      */
     public <T extends ECSSystem> void setSystemSignature(Class<T> systemClass, BitSet signature) {
         systemManager.setSignature(systemClass, signature);

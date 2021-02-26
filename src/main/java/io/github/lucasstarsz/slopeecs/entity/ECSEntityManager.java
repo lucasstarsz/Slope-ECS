@@ -20,6 +20,8 @@ import java.util.LinkedList;
  * the ECS. In order to see that class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
  * understanding of how to make use of Slope.
+ *
+ * @author Andrew Dey
  */
 public class ECSEntityManager {
 
@@ -58,6 +60,7 @@ public class ECSEntityManager {
      * }</pre>
      *
      * @param maxEntityCount The maximum amount of entities to allow in the ECS.
+     * @author Andrew Dey
      */
     public ECSEntityManager(int maxEntityCount) {
         this.maxEntities = maxEntityCount;
@@ -94,6 +97,7 @@ public class ECSEntityManager {
      * }</pre>
      *
      * @return The ID of the created entity.
+     * @author Andrew Dey
      */
     public int createEntity() {
         if (livingEntityCount >= maxEntities) {
@@ -152,6 +156,7 @@ public class ECSEntityManager {
      * }</pre>
      *
      * @param entity The ID of the entity to destroy.
+     * @author Andrew Dey
      */
     public void destroyEntity(int entity) {
         if (!isAlive(entity)) {

@@ -22,6 +22,8 @@ import java.util.Map;
  * the ECS. In order to see that class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
  * understanding of how to make use of Slope.
+ *
+ * @author Andrew Dey
  */
 public class ECSComponentManager {
 
@@ -53,6 +55,7 @@ public class ECSComponentManager {
      * <p>
      *
      * @param maxEntityCount The maximum amount of entities allowed within the component manager.
+     * @author Andrew Dey
      */
     public ECSComponentManager(int maxEntityCount) {
         this.maxEntities = maxEntityCount;
@@ -68,6 +71,7 @@ public class ECSComponentManager {
      * @param componentClass The class of the component type.
      * @param <T>            The generic type of the component class to be registered. Uses of {@code T} must implement
      *                       {@code IComponent}.
+     * @author Andrew Dey
      */
     public <T extends IComponent> void registerComponent(Class<T> componentClass) {
         String typeName = componentClass.getTypeName();
@@ -100,6 +104,7 @@ public class ECSComponentManager {
      * @param <T>            The generic type of the component class to get the type for. Uses of {@code T} must
      *                       implement {@code IComponent}.
      * @return The type of the specified component class.
+     * @author Andrew Dey
      */
     public <T extends IComponent> int getComponentType(Class<T> componentClass) {
         String typeName = componentClass.getTypeName();
@@ -124,6 +129,7 @@ public class ECSComponentManager {
      * @param component The component to add.
      * @param <T>       The generic type of the component to be added. Uses of {@code T} must implement {@code
      *                  IComponent}.
+     * @author Andrew Dey
      */
     public <T extends IComponent> void addComponent(int entity, T component) {
         getComponentArray(component.getClass()).insertData(entity, component);
@@ -141,6 +147,7 @@ public class ECSComponentManager {
      * @param componentClass The class of the component to remove.
      * @param <T>            The generic type of the component to be removed. Uses of {@code T} must implement {@code
      *                       IComponent}.
+     * @author Andrew Dey
      */
     public <T extends IComponent> void removeComponent(int entity, Class<T> componentClass) {
         getComponentArray(componentClass).removeData(entity);
@@ -158,6 +165,7 @@ public class ECSComponentManager {
      * @param <T>            The generic type of the component to get. Uses of {@code T} must implement {@code
      *                       IComponent}.
      * @return The component from the array for an entity.
+     * @author Andrew Dey
      */
     public <T extends IComponent> T getComponent(int entity, Class<T> componentClass) {
         return getComponentArray(componentClass).getData(entity);
@@ -172,6 +180,7 @@ public class ECSComponentManager {
      * to the entity. For more information and example usages, see {@link World#destroyEntity(int)}.
      *
      * @param entity The entity being destroyed.
+     * @author Andrew Dey
      */
     public void entityDestroyed(int entity) {
         for (var pair : componentArrays.entrySet()) {
@@ -195,6 +204,7 @@ public class ECSComponentManager {
      * @param <T>            The generic type of the component to get the array for. Uses of {@code T} must implement
      *                       {@code IComponent}.
      * @return The component array of type {@code T}.
+     * @author Andrew Dey
      */
     @SuppressWarnings("unchecked")
     private <T extends IComponent> ECSComponentArray<T> getComponentArray(Class<T> componentClass) {

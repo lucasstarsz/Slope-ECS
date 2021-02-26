@@ -52,6 +52,7 @@ import java.util.LinkedHashMap;
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Systems" target="_blank">wiki page for systems</a>.
  *
  * @param <T> The generic type of the system to create. Uses of {@code T} must extend {@code ECSSystem}.
+ * @author Andrew Dey
  */
 public class ECSSystemBuilder<T extends ECSSystem> {
 
@@ -84,6 +85,7 @@ public class ECSSystemBuilder<T extends ECSSystem> {
      *
      * @param world       The ecs world to create a system for.
      * @param systemClass The class of the system to create.
+     * @author Andrew Dey
      */
     public ECSSystemBuilder(World world, Class<T> systemClass) {
         this(world, systemClass, null);
@@ -114,6 +116,7 @@ public class ECSSystemBuilder<T extends ECSSystem> {
      * @param world       The ecs world to create a system for.
      * @param systemClass The class of the system to create.
      * @param arguments   The arguments to construct the system.
+     * @author Andrew Dey
      */
     public ECSSystemBuilder(World world, Class<T> systemClass, LinkedHashMap<Class<?>, Object> arguments) {
         this.world = world;
@@ -155,6 +158,7 @@ public class ECSSystemBuilder<T extends ECSSystem> {
      * @param <U>            The generic type of the component to register. Uses of {@code U} must implement {@code
      *                       IComponent}.
      * @return The builder, in order to chain method calls.
+     * @author Andrew Dey
      */
     public <U extends IComponent> ECSSystemBuilder<T> withComponent(Class<U> componentClass) {
         if (system == null) {
@@ -195,6 +199,7 @@ public class ECSSystemBuilder<T extends ECSSystem> {
      * }</pre>
      *
      * @return The resulting {@link ECSSystem}.
+     * @author Andrew Dey
      */
     public T build() {
         world.setSystemSignature(systemClass, systemSignature);

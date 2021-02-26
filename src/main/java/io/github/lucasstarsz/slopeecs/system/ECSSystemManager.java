@@ -24,6 +24,8 @@ import java.util.Map;
  * the ECS. In order to see that class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
  * understanding of how to make use of Slope.
+ *
+ * @author Andrew Dey
  */
 public class ECSSystemManager {
 
@@ -50,6 +52,8 @@ public class ECSSystemManager {
      * @param <T>         The generic type of the system to create and register. Uses of {@code T} must extend {@code
      *                    ECSSystem}.
      * @return The newly created system.
+     *
+     * @author Andrew Dey
      */
     public <T extends ECSSystem> T registerSystem(Class<T> systemClass) {
         return registerSystem(systemClass, null);
@@ -91,6 +95,8 @@ public class ECSSystemManager {
      * @param <T>         The generic type of the system to create and register. Uses of {@code T} must extend {@code
      *                    ECSSystem}.
      * @return The newly created system.
+     *
+     * @author Andrew Dey
      */
     public <T extends ECSSystem> T registerSystem(Class<T> systemClass, LinkedHashMap<Class<?>, Object> arguments) {
         String typeName = systemClass.getTypeName();
@@ -142,6 +148,8 @@ public class ECSSystemManager {
      * @param signature      The signature.
      * @param <T>            The generic type of the class whose signature is to be set. Uses of {@code T} must extend
      *                       {@code ECSSystem}.
+     *
+     * @author Andrew Dey
      */
     public <T extends ECSSystem> void setSignature(Class<T> signatureClass, BitSet signature) {
         String typeName = signatureClass.getTypeName();
@@ -194,6 +202,8 @@ public class ECSSystemManager {
      * }</pre>
      *
      * @param entity The entity that was destroyed.
+     *
+     * @author Andrew Dey
      */
     public void entityDestroyed(int entity) {
         for (Map.Entry<String, ECSSystem> entry : systems.entrySet()) {
@@ -244,6 +254,8 @@ public class ECSSystemManager {
      *
      * @param entity          The entity whose signature has changed.
      * @param entitySignature The recently changed signature of the entity.
+     *
+     * @author Andrew Dey
      */
     public void entitySignatureChanged(int entity, BitSet entitySignature) {
         for (Map.Entry<String, ECSSystem> entry : systems.entrySet()) {
@@ -279,6 +291,8 @@ public class ECSSystemManager {
      * @param <T>         The generic type of the system class to get the signature for. Uses of {@code T} must extend
      *                    {@code ECSSystem}.
      * @return The requested system signature, if found.
+     *
+     * @author Andrew Dey
      */
     public <T extends ECSSystem> BitSet getSystemSignature(Class<T> systemClass) {
         return systemSignatures.get(systemClass.getTypeName());
@@ -296,6 +310,8 @@ public class ECSSystemManager {
      * @param systemClass The class of the system to retrieve.
      * @param <T>         The generic type of the system to get. Uses of {@code T} must extend {@code ECSSystem}.
      * @return The requested system, if found.
+     *
+     * @author Andrew Dey
      */
     @SuppressWarnings("unchecked")
     public <T extends ECSSystem> T getSystem(Class<T> systemClass) {

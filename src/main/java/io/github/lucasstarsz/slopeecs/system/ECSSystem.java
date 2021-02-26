@@ -21,6 +21,8 @@ import java.util.Set;
  * In order to see this class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Systems" target="_blank">wiki page for systems</a>. It
  * contains the best information on learning how systems work.
+ *
+ * @author Andrew Dey
  */
 public class ECSSystem {
     /** The entities available in this system. */
@@ -33,20 +35,10 @@ public class ECSSystem {
         entities = new HashSet<>();
     }
 
-    /**
-     * Sets the ecs world for the system.
-     *
-     * @param world The ecs world acting as the manager of the system.
-     */
     public void setWorld(World world) {
         this.world = world;
     }
 
-    /**
-     * Gets the amount of entities currently in the system.
-     *
-     * @return The amount of entities in the system.
-     */
     public int getEntityCount() {
         return entities.size();
     }
