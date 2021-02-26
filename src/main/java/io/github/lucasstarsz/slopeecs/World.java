@@ -537,8 +537,8 @@ public class World {
      * arguments} parameter, see {@link ECSSystemManager#registerSystem(Class, LinkedHashMap)}.
      * <h3>Example Usages</h3>
      * <pre>{@code
-     * // Assume classes MySystem and CustomClass exist.
-     * // Assume the MySystem class has a constructor that takes a String, int, and CustomClass instance.
+     * // Assume classes SomeSystem and CustomClass exist.
+     * // Assume the SomeSystem class has a constructor that takes a String, int, and CustomClass instance.
      * World world = new World();
      * world.init(1);
      *
@@ -548,7 +548,7 @@ public class World {
      *     put(CustomClass.class, new CustomClass());
      * }};
      *
-     * MySystem system = world.registerSystem(MySystem.class, arguments);
+     * SomeSystem system = world.registerSystem(SomeSystem.class, arguments);
      * }</pre>
      *
      * @param systemClass The class to register as a system.
