@@ -6,14 +6,14 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-
 public class ECSInitialStateTests {
     private final World world = new World();
 
     @Before
     public void initialize() {
-        /* Initialize the manager before each test. */
-        world.init();
+        /* To avoid longer initialization times, the maximum entity count is set to 1.
+         * This does not affect the result of the tests. */
+        world.init(1);
     }
 
     @Test
@@ -23,7 +23,7 @@ public class ECSInitialStateTests {
 
     @Test
     public void checkInitialAvailableEntityCount() {
-        assertEquals("Every entity slot should be available.", world.getMaxEntities(), world.getEntityManager().getAvailableEntities());
+        assertEquals("Every entity slot should be available.", world.getMaxEntities(), world.getEntityManager().getAvailableEntityCount());
     }
 
     @Test
