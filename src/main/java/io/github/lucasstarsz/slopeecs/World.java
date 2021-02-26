@@ -530,6 +530,15 @@ public class World {
      * SomeSystem someSystem = world.registerSystem(SomeSystem.class);
      * }</pre>
      *
+     * <h4>Notes for Java module Users</h4>
+     * This method (and its overloads) use reflection to instantiate systems. In order for this to be possible, you need
+     * to open all packages containing systems to the {@code slope.ecs} module.
+     * <pre>{@code
+     * module your.module {
+     *     opens packagepathto.yoursystems to slope.ecs;
+     * }
+     * }</pre>
+     *
      * @param systemClass The class to register as a system.
      * @param <T>         The generic type of the system to create and register. Uses of {@code T} must extend {@code
      *                    ECSSystem}.
@@ -560,6 +569,15 @@ public class World {
      * }};
      *
      * SomeSystem system = world.registerSystem(SomeSystem.class, arguments);
+     * }</pre>
+     *
+     * <h4>Notes for Java module Users</h4>
+     * This method (and its overloads) use reflection to instantiate systems. In order for this to be possible, you need
+     * to open all packages containing systems to the {@code slope.ecs} module.
+     * <pre>{@code
+     * module your.module {
+     *     opens packagepathto.yoursystems to slope.ecs;
+     * }
      * }</pre>
      *
      * @param systemClass The class to register as a system.
