@@ -1,14 +1,33 @@
 package io.github.lucasstarsz.slopeecs.component;
 
+import io.github.lucasstarsz.slopeecs.World;
+import io.github.lucasstarsz.slopeecs.entity.ECSEntityManager;
+import io.github.lucasstarsz.slopeecs.system.ECSSystemManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
-/** The manager of components and component types. */
+/**
+ * The manager of components and component types.
+ * <p>
+ * <h3>About</h3>
+ * This class is one of three managers (see: {@link ECSEntityManager}, {@link ECSSystemManager}) used within Slope-ECS.
+ * It serves the main purpose of storing component types and arrays (see: {@link IComponentArray}, as well as
+ * addition/retrieval/removal of those components.
+ * <p>
+ * Furthermore, the component types generated from this class are what are used in signatures by entities and systems
+ * alike.
+ * <p>
+ * Considering this is only one of three managers in Slope-ECS, it is better to use the {@link World} class to manage
+ * the ECS. In order to see that class in action, you should check the
+ * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
+ * understanding of how to make use of Slope.
+ */
 public class ECSComponentManager {
 
-    /** Map from type string pointer to a component type */
+    /** Mapping from class string to a component type */
     private final Map<String, Integer> componentTypes = new HashMap<>();
-    /** Map from type string pointer to a component array */
+    /** Mapping from class string to a component array */
     private final Map<String, IComponentArray> componentArrays = new HashMap<>();
     /** The component type to be assigned to the next registered component, starting at 0. */
     private int nextComponentType;
@@ -24,6 +43,14 @@ public class ECSComponentManager {
 
     /**
      * Constructs a component manager with the specified maximum entity count.
+     * <p>
+     * <h3>About</h3>
+     * This constructor requires that you set the maximum entity count, foregoing use of a default value. The value
+     * specified must be at least 1.
+     * <p>
+     * The maximum entity count value only plays a role in setting the maximum entity count for a {@link
+     * IComponentArray}.
+     * <p>
      *
      * @param maxEntityCount The maximum amount of entities allowed within the component manager.
      */
@@ -33,6 +60,10 @@ public class ECSComponentManager {
 
     /**
      * Registers the specified class as a possible component type within the ECS.
+     * <p>
+     * <h3>About</h3>
+     * This is the method called by {@link World#registerComponent(Class)}, allowing you to register a component within
+     * Slope-ECS. For more information and example usages, see {@link World#registerComponent(Class)}.
      *
      * @param componentClass The class of the component type.
      * @param <T>            The generic type of the component class to be registered. Uses of {@code T} must implement
@@ -57,6 +88,13 @@ public class ECSComponentManager {
 
     /**
      * Gets the component type of the specified component class.
+     * <p>
+     * <h3>About</h3>
+     * This is the method called by {@link World#getComponentType(Class)}, allowing you to get the type of a component
+     * within Slope-ECS. For more information and example usages, see {@link World#getComponentType(Class)}.
+     * <p/>
+     * The returned value is based on {@link #nextComponentType}, which starts at 0 and increments every time a new
+     * component is registered.
      *
      * @param componentClass The class of the component type.
      * @param <T>            The generic type of the component class to get the type for. Uses of {@code T} must
@@ -76,6 +114,11 @@ public class ECSComponentManager {
 
     /**
      * Adds the specified component to the specified entity's component array.
+     * <p>
+     * <h3>About</h3>
+     * This is the method called by {@link World#addComponent(int, IComponent)}, allowing you to add a component aliased
+     * to an entity within Slope-ECS. For more information and example usages, see {@link World#addComponent(int,
+     * IComponent)}.
      *
      * @param entity    The entity to add the component to.
      * @param component The component to add.
@@ -88,6 +131,11 @@ public class ECSComponentManager {
 
     /**
      * Remove a component from the array for an entity.
+     * <p>
+     * <h3>About</h3>
+     * This is the method called by {@link World#removeComponent(int, Class)}, allowing you to remove a component
+     * aliased to an entity within Slope-ECS. For more information and example usages, see {@link
+     * World#removeComponent(int, Class)}.
      *
      * @param entity         The entity to remove a component from.
      * @param componentClass The class of the component to remove.
@@ -100,6 +148,10 @@ public class ECSComponentManager {
 
     /**
      * Gets the component from the array for an entity.
+     * <p>
+     * <h3>About</h3>
+     * This is the method called by {@link World#getComponent(int, Class)}, allowing you to get a component aliased to
+     * an entity within Slope-ECS. For more information and example usages, see {@link World#getComponent(int, Class)}.
      *
      * @param entity         The entity to get a component from.
      * @param componentClass The class of the component to get.
@@ -114,6 +166,10 @@ public class ECSComponentManager {
     /**
      * Notifies each component array that an entity has been destroyed. If it has a component for that entity, that
      * component will be removed.
+     * <p>
+     * <h3>About</h3>
+     * This is the method called by {@link World#destroyEntity(int)}, where this method removes all components aliased
+     * to the entity. For more information and example usages, see {@link World#destroyEntity(int)}.
      *
      * @param entity The entity being destroyed.
      */
@@ -124,26 +180,16 @@ public class ECSComponentManager {
         }
     }
 
-    /**
-     * Gets the number of registered component types.
-     *
-     * @return The number of registered component types.
-     */
     public int getRegisteredComponentCount() {
         return nextComponentType;
     }
 
-    /**
-     * Gets the count of component arrays in the component manager.
-     *
-     * @return The amount of component arrays.
-     */
     public int getComponentArrayCount() {
         return componentArrays.values().size();
     }
 
     /**
-     * Gets the ComponentArray of type {@code T}.
+     * Gets the {@link IComponentArray} of type {@code T} -- the class specified.
      *
      * @param componentClass The class of the component array to get.
      * @param <T>            The generic type of the component to get the array for. Uses of {@code T} must implement
