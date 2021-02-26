@@ -9,15 +9,15 @@ import java.util.Map;
 
 /**
  * The manager of components and component types.
- * <p>
- * <h3>About</h3>
+ *
+ * <h2>About</h2>
  * This class is one of three managers (see: {@link ECSEntityManager}, {@link ECSSystemManager}) used within Slope-ECS.
  * It serves the main purpose of storing component types and arrays (see: {@link IComponentArray}, as well as
  * addition/retrieval/removal of those components.
- * <p>
+ *
  * Furthermore, the component types generated from this class are what are used in signatures by entities and systems
  * alike.
- * <p>
+ *
  * Considering this is only one of three managers in Slope-ECS, it is better to use the {@link World} class to manage
  * the ECS. In order to see that class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
@@ -36,7 +36,7 @@ public class ECSComponentManager {
 
     /**
      * The maximum number of entities allowed within the arrays of the component manager.
-     * <p>
+     *
      * This number is the same across all portions of the ECS. To change it, one must call {@code ECSCoordinator#init}
      * and set the maximum number of entities manually. Doing this a second time during use of the ECS
      * <strong>will</strong> remove any existing components, and invalidate entity IDs.
@@ -45,14 +45,13 @@ public class ECSComponentManager {
 
     /**
      * Constructs a component manager with the specified maximum entity count.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This constructor requires that you set the maximum entity count, foregoing use of a default value. The value
      * specified must be at least 1.
-     * <p>
+     *
      * The maximum entity count value only plays a role in setting the maximum entity count for a {@link
      * IComponentArray}.
-     * <p>
      *
      * @param maxEntityCount The maximum amount of entities allowed within the component manager.
      * @author Andrew Dey
@@ -63,8 +62,8 @@ public class ECSComponentManager {
 
     /**
      * Registers the specified class as a possible component type within the ECS.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#registerComponent(Class)}, allowing you to register a component within
      * Slope-ECS. For more information and example usages, see {@link World#registerComponent(Class)}.
      *
@@ -92,11 +91,11 @@ public class ECSComponentManager {
 
     /**
      * Gets the component type of the specified component class.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#getComponentType(Class)}, allowing you to get the type of a component
      * within Slope-ECS. For more information and example usages, see {@link World#getComponentType(Class)}.
-     * <p/>
+     *
      * The returned value is based on {@link #nextComponentType}, which starts at 0 and increments every time a new
      * component is registered.
      *
@@ -119,8 +118,8 @@ public class ECSComponentManager {
 
     /**
      * Adds the specified component to the specified entity's component array.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#addComponent(int, IComponent)}, allowing you to add a component aliased
      * to an entity within Slope-ECS. For more information and example usages, see {@link World#addComponent(int,
      * IComponent)}.
@@ -137,8 +136,8 @@ public class ECSComponentManager {
 
     /**
      * Remove a component from the array for an entity.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#removeComponent(int, Class)}, allowing you to remove a component
      * aliased to an entity within Slope-ECS. For more information and example usages, see {@link
      * World#removeComponent(int, Class)}.
@@ -155,8 +154,8 @@ public class ECSComponentManager {
 
     /**
      * Gets the component from the array for an entity.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#getComponent(int, Class)}, allowing you to get a component aliased to
      * an entity within Slope-ECS. For more information and example usages, see {@link World#getComponent(int, Class)}.
      *
@@ -174,8 +173,8 @@ public class ECSComponentManager {
     /**
      * Notifies each component array that an entity has been destroyed. If it has a component for that entity, that
      * component will be removed.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#destroyEntity(int)}, where this method removes all components aliased
      * to the entity. For more information and example usages, see {@link World#destroyEntity(int)}.
      *

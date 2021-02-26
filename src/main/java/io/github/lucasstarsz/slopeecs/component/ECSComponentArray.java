@@ -15,14 +15,15 @@ public class ECSComponentArray<T extends IComponent> implements IComponentArray 
     /**
      * The packed array of components set to a specified maximum amount, matching the maximum number of entities allowed
      * to exist simultaneously, so that each entity has a unique spot.
-     * <p>
+     *
      * Uses of generic type {@code T} must implement {@code IComponent}.
      */
     private final T[] componentArray;
 
     /**
      * The maximum number of entities allowed within a component array.
-     * <p>
+     *
+     * <h2>About</h2>
      * This number is the same across all portions of the ECS. To change it, one must call {@code ECSCoordinator#init}
      * and set the maximum number of entities manually. Doing this a second time during use of the ECS
      * <strong>will</strong> remove any existing components, and invalidate entity IDs.

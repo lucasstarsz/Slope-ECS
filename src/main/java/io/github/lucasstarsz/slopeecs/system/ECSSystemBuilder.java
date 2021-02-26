@@ -8,8 +8,8 @@ import java.util.LinkedHashMap;
 
 /**
  * An {@link ECSSystem} builder, providing an easy way to create ECS systems.
- * <p>
- * <h3>About</h3>
+ *
+ * <h2>About</h2>
  * Before this class, developers were required to handle the signature (as a {@link BitSet}) of the system themselves,
  * requiring more work as well as an understanding of bits, bitwise operations, and of using the {@code BitSet} class,
  * like so:
@@ -31,11 +31,11 @@ import java.util.LinkedHashMap;
  * // we can now use transformSystem
  * // hopefully we didn't forget anything...
  * }</pre>
- * <p>
+ *
  * This was too much of a hassle for a developer to deal with, unless they're willing to get into the nitty-gritty of
  * the ECS. Furthermore, it raises the entry barrier for newer developers who lack experience with bits and bit
  * operations.
- * <p>
+ *
  * As a result, this builder class was developed, allowing the user a more readable interface for creating a system. The
  * result:
  * <pre>{@code
@@ -71,13 +71,13 @@ public class ECSSystemBuilder<T extends ECSSystem> {
 
     /**
      * Constructs an ECSSystemBuilder with the specified {@link World} and the class of the system to create.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This constructs a builder that will, on command, build an {@link ECSSystem} that is the type of whatever system
      * class is specified. The method assumes that you are using a no-args constructor to instantiate the system. And as
      * such, it calls {@link #ECSSystemBuilder(World, Class, LinkedHashMap)}, where the last parameter is null.
-     * <p>
-     * <h3>Example Usages</h3>
+     *
+     * <h4>Example Usages</h4>
      * <pre>{@code
      * // assume class SomeSystem exists
      * ECSSystemBuilder<SomeSystem> someSystemBuilder = new ECSSystemBuilder<>(world, SomeSystem.class);
@@ -94,12 +94,12 @@ public class ECSSystemBuilder<T extends ECSSystem> {
     /**
      * Constructs an ECSSystemBuilder with the specified ecs world and the class of the system to create, as well as
      * arguments to instantiate the system if needed.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * For general information about the method, see {@link #ECSSystemBuilder(World, Class)}. For information about the
      * {@code arguments} parameter, see {@link ECSSystemManager#registerSystem(Class, LinkedHashMap)}.
-     * <p>
-     * <h3>Example Usages</h3>
+     *
+     * <h4>Example Usages</h4>
      * <pre>{@code
      * // Assume classes SomeSystem and CustomClass exist.
      * // Assume the SomeSystem class has a constructor that takes a String, int, and CustomClass instance.
@@ -134,12 +134,12 @@ public class ECSSystemBuilder<T extends ECSSystem> {
 
     /**
      * Adds a possible component to the system.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * Each component added in this way decides what entities are allowed in the resulting system. All entities in a
      * given system are guaranteed to have the components added in this way.
-     * <p>
-     * <h3>Example Usages</h3>
+     *
+     * <h4>Example Usages</h4>
      * Without method chaining
      * <pre>{@code
      * // assume classes SomeSystem, SomeComponent exist
@@ -173,15 +173,15 @@ public class ECSSystemBuilder<T extends ECSSystem> {
 
     /**
      * Finalizes the creation and signature of the system, returning it for use.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * After creating the builder with the system we want to create, and adding the required components, we use this
      * method to finalize the creation of the system and its signature. Note that you don't need to add a component in
      * order to build the result system -- systems with no components in their signature are just as valid!
-     * <p>
+     *
      * The resulting system is ready for use -- its signature is already set based on the other parts implemented.
-     * <p>
-     * <h3>Example Usages</h3>
+     *
+     * <h4>Example Usages</h4>
      * Without method chaining
      * <pre>{@code
      * // assume classes SomeSystem, SomeComponent exist
