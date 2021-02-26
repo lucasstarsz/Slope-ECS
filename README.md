@@ -18,7 +18,7 @@ Slope is a developer-friendly Entity Component System written in pure Java. It e
 ## Highlights
 - [x] **Cross Platform** - Fully supports all major desktop platforms (Linux, macOS, Windows)
 - [x] **Developer Friendly**
-    - Robust testing, ensuring your programs work as you expect.
+    - Robust testing for all supported platforms, ensuring your programs work as you expect.
     - Well-documented source code, ensuring each part of the library's purpose to be easily understood.
 - [x] **Open Source**
     - Under the [MIT License][MIT-License], you're free to use and modify this library for your own needs.
