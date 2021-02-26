@@ -566,19 +566,19 @@ public class World {
     }
 
     /**
-     * Sets the system manager's signature to the specified signature.
+     * Sets the signature of the specified system class to the specified signature.
      * <p>
      * <h3>About</h3>
-     * This method is part of the more error-prone way of defining a system. If you're looking to learn about how to add
-     * systems to Slope, I highly suggest you look at the
-     * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Systems" target="_blank">wiki page for systems</a>. It is
-     * the best resource for understanding the bigger picture on how things work in Slope.
-     * <p>
      * This is the way to manually set the accepted components for a system -- you get the ability to manually set the
      * bits for the components you want the system to have. The bits in the signature determine what components the
      * system accepts; any bit set to true (you access the bit index for a component using the {@link
      * #getComponentType(Class)} method) will be a requirement for entities to have before being added to the system's
      * entities.
+     * <p>
+     * This method is part of the more error-prone way of defining a system. If you're looking to learn about how to add
+     * systems to Slope, I highly suggest you look at the
+     * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Systems" target="_blank">wiki page for systems</a>. It is
+     * the best resource for understanding the bigger picture on how things work in Slope.
      * <p>
      * <h3>Example Usages</h3>
      * <pre>{@code
