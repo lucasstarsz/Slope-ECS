@@ -33,10 +33,11 @@ public class ECSSystemManager {
     private final Map<String, ECSSystem> systems = new HashMap<>();
 
     /**
-     * Registers the specified class as a system in the manager, returning a new system of type T.
+     * Registers the specified class as a system in the manager, returning a new system of the specified class.
      * <p>
      * <h3>About</h3>
-     * This is not a method intended to be directly used -- for actual usage, see {@link World#registerSystem(Class)}.
+     * This is the method called by {@link World#registerSystem(Class)}, allowing you to register/create a system within
+     * Slope-ECS. For more information, see {@link World#registerSystem(Class)}.
      * <p>
      * <h3>Example Usages</h3>
      * <pre>{@code
@@ -59,8 +60,8 @@ public class ECSSystemManager {
      * specified arguments.
      * <p>
      * <h3>About</h3>
-     * This is not a method intended to be directly used -- for actual usage, see {@link World#registerSystem(Class,
-     * LinkedHashMap)}.
+     * This is the method called by {@link World#registerSystem(Class, LinkedHashMap)}, allowing you to register/create
+     * a system within Slope-ECS. For more information, see {@link World#registerSystem(Class, LinkedHashMap)}.
      * <p>
      * The arguments for construct the system are formatted as a {@code java.util.LinkedHashMap}. Specifically a {@code
      * LinkedHashMap}, in order to retain the order of the arguments you put in. Each entry in the map must be formatted
@@ -121,8 +122,8 @@ public class ECSSystemManager {
      * Sets the signature for the specified system class to the specified signature.
      * <p>
      * <h3>About</h3>
-     * For the best information on this method, see {@link World#setSystemSignature(Class, BitSet)} -- that method calls
-     * this method, so the parameters are the same.
+     * This is the method called by {@link World#setSystemSignature(Class, BitSet)}, allowing you to set a system's
+     * signature within Slope-ECS. For more information, see {@link World#setSystemSignature(Class, BitSet)}.
      * <p>
      * <h3>Example Usages</h3>
      * <pre>{@code
@@ -157,9 +158,8 @@ public class ECSSystemManager {
      * Erases a destroyed entity from all system lists.
      * <p>
      * <h3>About</h3>
-     * This method is directly called by {@link World#destroyEntity(int)}, as part of the updating of systems to ensure
-     * the dead entity is removed. It goes through each system, and removes the entity from its {@code Set} of
-     * entities.
+     * This is the method called by {@link World#destroyEntity(int)} -- it removes all instances of the entity from each
+     * system in the manager. For more information, see {@link World#destroyEntity(int)}.
      * <p>
      * If you are working with the {@link World} class, this method should not be called directly. The {@code World}
      * handles this internally.
@@ -205,8 +205,9 @@ public class ECSSystemManager {
      * Notifies each system in the manager that the specified entity's signature has changed.
      * <p>
      * <h3>About</h3>
-     * This method is directly called by {@link World#addComponent(int, IComponent)} and {@link
-     * World#removeComponent(int, Class)}, as part of updating the systems every time an entity's signature changes.
+     * This is the method called by {@link World#addComponent(int, IComponent)}/{@link World#removeComponent(int,
+     * Class)} -- it iterates over each system, removing the entity if its signature no longer satisfies the
+     * requirements for a system. For more information, see those two methods.
      * <p>
      * When an entity is passed into this method, its signature is checked against each system's signature. If the
      * system's signature cannot be derived from within the entity's signature -- that is, a bitwise AND operation is
