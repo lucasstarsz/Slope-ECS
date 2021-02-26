@@ -271,8 +271,6 @@ public class World {
      * // AnotherComponent anotherComponent = new AnotherComponent();
      * // world.addComponent(entity, anotherComponent); // throws IllegalStateException - the component has not been registered.
      * }</pre>
-     * <strong>NOTE:</strong> This example utilizes the {@link #addComponent(int, IComponent)} method -- click on the
-     * aforementioned link to learn how that method works.
      *
      * @param componentClass The class to register as a possible container for components.
      * @param <T>            The generic type of the class to register as a possible entity component. Uses of {@code T}
