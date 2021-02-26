@@ -14,12 +14,12 @@ import java.util.Map;
 
 /**
  * The manager of systems and system signatures.
- * <p>
- * <h3>About</h3>
+ *
+ * <h2>About</h2>
  * This class is one of three managers (see: {@link ECSEntityManager}, {@link ECSComponentManager}) used within
  * Slope-ECS. It serves the main purpose of storing systems and their signatures, as well as updating those systems
  * based on changes to entity signatures.
- * <p>
+ *
  * Considering this is only one of three managers in Slope-ECS, it is better to use the {@link World} class to manage
  * the ECS. In order to see that class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
@@ -36,12 +36,12 @@ public class ECSSystemManager {
 
     /**
      * Registers the specified class as a system in the manager, returning a new system of the specified class.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#registerSystem(Class)}, allowing you to register/create a system within
      * Slope-ECS. For more information, see {@link World#registerSystem(Class)}.
-     * <p>
-     * <h3>Example Usages</h3>
+     *
+     * <h4>Example Usages</h4>
      * <pre>{@code
      * // assume class SomeSystem exists
      * ECSSystemManager systemManager = new ECSSystemManager();
@@ -52,7 +52,6 @@ public class ECSSystemManager {
      * @param <T>         The generic type of the system to create and register. Uses of {@code T} must extend {@code
      *                    ECSSystem}.
      * @return The newly created system.
-     *
      * @author Andrew Dey
      */
     public <T extends ECSSystem> T registerSystem(Class<T> systemClass) {
@@ -62,11 +61,11 @@ public class ECSSystemManager {
     /**
      * Registers the specified class as a system in the manager, returning a new system of type T, constructed with the
      * specified arguments.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#registerSystem(Class, LinkedHashMap)}, allowing you to register/create
      * a system within Slope-ECS. For more information, see {@link World#registerSystem(Class, LinkedHashMap)}.
-     * <p>
+     *
      * The arguments for construct the system are formatted as a {@code java.util.LinkedHashMap}. Specifically a {@code
      * LinkedHashMap}, in order to retain the order of the arguments you put in. Each entry in the map must be formatted
      * such that:
@@ -74,8 +73,8 @@ public class ECSSystemManager {
      *     <li>The {@code key} is the class of the argument.</li>
      *     <li>The {@code value} is the actual argument.</li>
      * </ul>
-     * <p>
-     * <h3>Example Usages</h3>
+     *
+     * <h4>Example Usages</h4>
      * <pre>{@code
      * // Assume classes SomeSystem and CustomClass exist.
      * // Assume the SomeSystem class has a constructor that takes a String, int, and CustomClass instance.
@@ -95,7 +94,6 @@ public class ECSSystemManager {
      * @param <T>         The generic type of the system to create and register. Uses of {@code T} must extend {@code
      *                    ECSSystem}.
      * @return The newly created system.
-     *
      * @author Andrew Dey
      */
     public <T extends ECSSystem> T registerSystem(Class<T> systemClass, LinkedHashMap<Class<?>, Object> arguments) {
@@ -126,12 +124,12 @@ public class ECSSystemManager {
 
     /**
      * Sets the signature for the specified system class to the specified signature.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#setSystemSignature(Class, BitSet)}, allowing you to set a system's
      * signature within Slope-ECS. For more information, see {@link World#setSystemSignature(Class, BitSet)}.
-     * <p>
-     * <h3>Example Usages</h3>
+     *
+     * <h4>Example Usages</h4>
      * <pre>{@code
      * // assume class SomeSystem exists
      * ECSSystemManager systemManager = new ECSSystemManager();
@@ -148,7 +146,6 @@ public class ECSSystemManager {
      * @param signature      The signature.
      * @param <T>            The generic type of the class whose signature is to be set. Uses of {@code T} must extend
      *                       {@code ECSSystem}.
-     *
      * @author Andrew Dey
      */
     public <T extends ECSSystem> void setSignature(Class<T> signatureClass, BitSet signature) {
@@ -164,15 +161,15 @@ public class ECSSystemManager {
 
     /**
      * Erases a destroyed entity from all system lists.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#destroyEntity(int)} -- it removes all instances of the entity from each
      * system in the manager. For more information, see {@link World#destroyEntity(int)}.
-     * <p>
+     *
      * If you are working with the {@link World} class, this method should not be called directly. The {@code World}
      * handles this internally.
-     * <p>
-     * <h3>Example Usages</h3>
+     *
+     * <h4>Example Usages</h4>
      * This example specifically takes the approach of using the {@link World} class, as managing the {@link
      * ECSSystemManager} and systems yourself is <strong>not</strong> recommended.
      * <pre>{@code
@@ -202,7 +199,6 @@ public class ECSSystemManager {
      * }</pre>
      *
      * @param entity The entity that was destroyed.
-     *
      * @author Andrew Dey
      */
     public void entityDestroyed(int entity) {
@@ -213,17 +209,17 @@ public class ECSSystemManager {
 
     /**
      * Notifies each system in the manager that the specified entity's signature has changed.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * This is the method called by {@link World#addComponent(int, IComponent)}/{@link World#removeComponent(int,
      * Class)} -- it iterates over each system, removing the entity if its signature no longer satisfies the
      * requirements for a system. For more information, see those two methods.
-     * <p>
+     *
      * When an entity is passed into this method, its signature is checked against each system's signature. If the
      * system's signature cannot be derived from within the entity's signature -- that is, a bitwise AND operation is
      * performed to check if the system signature is a subset of the entity signature.
-     * <p>
-     * <h3>Example Usages</h3>
+     *
+     * <h4>Example Usages</h4>
      * This example specifically takes the approach of using the {@link World} class, as managing the {@link
      * ECSSystemManager} and systems yourself is <strong>not</strong> recommended.
      * <pre>{@code
@@ -254,7 +250,6 @@ public class ECSSystemManager {
      *
      * @param entity          The entity whose signature has changed.
      * @param entitySignature The recently changed signature of the entity.
-     *
      * @author Andrew Dey
      */
     public void entitySignatureChanged(int entity, BitSet entitySignature) {
@@ -280,10 +275,10 @@ public class ECSSystemManager {
 
     /**
      * Gets the signature of the system with the specified system class.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * Based on the system class specified, this method gets the signature for that system.
-     * <p/>
+     *
      * If the system class is not registered (see: {@link #registerSystem(Class, LinkedHashMap)}), then the returned
      * value will be null.
      *
@@ -291,7 +286,6 @@ public class ECSSystemManager {
      * @param <T>         The generic type of the system class to get the signature for. Uses of {@code T} must extend
      *                    {@code ECSSystem}.
      * @return The requested system signature, if found.
-     *
      * @author Andrew Dey
      */
     public <T extends ECSSystem> BitSet getSystemSignature(Class<T> systemClass) {
@@ -300,17 +294,16 @@ public class ECSSystemManager {
 
     /**
      * Gets the system with the specified system class.
-     * <p>
-     * <h3>About</h3>
+     *
+     * <h4>About</h4>
      * Based on the system class specified, this method gets that system.
-     * <p/>
+     *
      * If the system is not registered (see: {@link #registerSystem(Class, LinkedHashMap)}), then an {@link
      * IllegalStateException} will be thrown.
      *
      * @param systemClass The class of the system to retrieve.
      * @param <T>         The generic type of the system to get. Uses of {@code T} must extend {@code ECSSystem}.
      * @return The requested system, if found.
-     *
      * @author Andrew Dey
      */
     @SuppressWarnings("unchecked")
