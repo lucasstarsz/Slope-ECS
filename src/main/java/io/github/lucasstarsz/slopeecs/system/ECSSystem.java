@@ -9,6 +9,7 @@ import java.util.Set;
 /**
  * The class all systems in this ECS derive from.
  * <p>
+ * <h3>About</h3>
  * This class defines the entities available to the system, and the manager they derive from on creation within the
  * ECS.
  * <p>
@@ -16,6 +17,10 @@ import java.util.Set;
  * have a no-arguments constructor, specify no constructor, or (if it has the need for a constructor with arguments)
  * specify the arguments in the secondary method for registering that system, found here: {@link
  * ECSSystemManager#registerSystem(Class, LinkedHashMap)}
+ * <p>
+ * In order to see this class in action, you should check the
+ * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Systems" target="_blank">wiki page for systems</a>. It
+ * contains the best information on learning how systems work.
  */
 public class ECSSystem {
     /** The entities available in this system. */
