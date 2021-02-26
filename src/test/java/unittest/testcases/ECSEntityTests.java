@@ -27,7 +27,7 @@ public class ECSEntityTests {
 
     @Test
     public void checkAvailableEntityCount_whenEntitiesArePresent() {
-        assertEquals("Entity count should match.", 0, world.getEntityManager().getAvailableEntities());
+        assertEquals("Entity count should match.", 0, world.getEntityManager().getAvailableEntityCount());
     }
 
     @Test(expected = IllegalStateException.class)

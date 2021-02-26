@@ -23,7 +23,7 @@ public class ECSInitialStateTests {
 
     @Test
     public void checkInitialAvailableEntityCount() {
-        assertEquals("Every entity slot should be available.", world.getMaxEntities(), world.getEntityManager().getAvailableEntities());
+        assertEquals("Every entity slot should be available.", world.getMaxEntities(), world.getEntityManager().getAvailableEntityCount());
     }
 
     @Test

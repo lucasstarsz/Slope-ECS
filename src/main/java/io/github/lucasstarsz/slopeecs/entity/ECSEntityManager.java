@@ -204,7 +204,7 @@ public class ECSEntityManager {
         return livingEntityCount;
     }
 
-    public int getAvailableEntities() {
+    public int getAvailableEntityCount() {
         return availableEntities.size();
     }
 }
