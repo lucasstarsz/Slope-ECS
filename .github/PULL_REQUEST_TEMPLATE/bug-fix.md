@@ -2,6 +2,7 @@
 name: Bug Fix Pull Request
 about: Fixing a bug? This is the way to go.
 title: "[FIXED BUG]"
+labels: 
 assignees: lucasstarsz
 
 ---
