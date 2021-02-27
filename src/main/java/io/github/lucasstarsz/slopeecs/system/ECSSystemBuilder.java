@@ -31,11 +31,11 @@ import java.util.LinkedHashMap;
  * // we can now use transformSystem
  * // hopefully we didn't forget anything...
  * }</pre>
- *
+ * <p>
  * This was too much of a hassle for a developer to deal with, unless they're willing to get into the nitty-gritty of
  * the ECS. Furthermore, it raises the entry barrier for newer developers who lack experience with bits and bit
  * operations.
- *
+ * <p>
  * As a result, this builder class was developed, allowing the user a more readable interface for creating a system. The
  * result:
  * <pre>{@code
@@ -48,6 +48,7 @@ import java.util.LinkedHashMap;
  *
  * // we can now use transformSystem, woo!
  * }</pre>
+ * <p>
  * For more information on how to create systems, check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Systems" target="_blank">wiki page for systems</a>.
  *
@@ -178,7 +179,7 @@ public class ECSSystemBuilder<T extends ECSSystem> {
      * After creating the builder with the system we want to create, and adding the required components, we use this
      * method to finalize the creation of the system and its signature. Note that you don't need to add a component in
      * order to build the result system -- systems with no components in their signature are just as valid!
-     *
+     * <p>
      * The resulting system is ready for use -- its signature is already set based on the other parts implemented.
      *
      * <h4>Example Usages</h4>
