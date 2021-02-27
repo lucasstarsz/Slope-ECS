@@ -3,7 +3,7 @@ name: Documentation Fix
 about: Incorrect docs/wiki? Let us know!
 title: "[DOCS FIX]"
 labels: documentation
-assignees: ''
+assignees: lucasstarsz
 
 ---
 
