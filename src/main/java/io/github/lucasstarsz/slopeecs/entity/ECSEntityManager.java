@@ -15,7 +15,7 @@ import java.util.LinkedList;
  * This class is one of three managers (see: {@link ECSSystemManager}, {@link ECSComponentManager}) used within
  * Slope-ECS. It serves the main purpose of storing entities and their signatures, as well as creation/destruction of
  * those entities and their signatures.
- *
+ * <p>
  * Considering this is only one of three managers in Slope-ECS, it is better to use the {@link World} class to manage
  * the ECS. In order to see that class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
@@ -35,6 +35,7 @@ public class ECSEntityManager {
     /**
      * The maximum number of entities allowed within the entity manager.
      *
+     * <h4>About</h4>
      * This number is the same across all portions of the ECS. To change it, one must call {@code ECSCoordinator#init}
      * and set the maximum number of entities manually. Doing this a second time during use of the ECS
      * <strong>will</strong> remove any existing components, and invalidate entity IDs.

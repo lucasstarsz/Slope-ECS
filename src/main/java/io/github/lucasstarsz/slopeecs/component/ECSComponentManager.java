@@ -14,10 +14,10 @@ import java.util.Map;
  * This class is one of three managers (see: {@link ECSEntityManager}, {@link ECSSystemManager}) used within Slope-ECS.
  * It serves the main purpose of storing component types and arrays (see: {@link IComponentArray}, as well as
  * addition/retrieval/removal of those components.
- *
+ * <p>
  * Furthermore, the component types generated from this class are what are used in signatures by entities and systems
  * alike.
- *
+ * <p>
  * Considering this is only one of three managers in Slope-ECS, it is better to use the {@link World} class to manage
  * the ECS. In order to see that class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
@@ -37,6 +37,7 @@ public class ECSComponentManager {
     /**
      * The maximum number of entities allowed within the arrays of the component manager.
      *
+     * <h4>About</h4>
      * This number is the same across all portions of the ECS. To change it, one must call {@code ECSCoordinator#init}
      * and set the maximum number of entities manually. Doing this a second time during use of the ECS
      * <strong>will</strong> remove any existing components, and invalidate entity IDs.

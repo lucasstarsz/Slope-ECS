@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
  * <h2>About</h2>
  * The {@code World} in Slope is a convenient abstraction that ties the entire ECS together, providing the full
  * experience and power of the ECS without exposing the extra work of updating each manager.
- *
+ * <p>
  * In order to see this class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
  * understanding of how to make use of Slope.
@@ -67,7 +67,7 @@ public class World {
      * <h4>About</h4>
      * The {@code init} method is one of the most important methods in the Slope {@code World} -- it initializes the
      * internal instances of the entity manager, component manager, and system manager.
-     *
+     * <p>
      * This method provides the option of omitting specifying the maximum amount of entities to be in the {@code World}
      * at once. Instead, a default value in the form of {@link ECSDefaults#defaultMaxEntityCount} is set as the
      * maximum.
@@ -95,7 +95,7 @@ public class World {
      * <h4>About</h4>
      * The {@code init} method is one of the most important methods in the Slope {@code World} -- it initializes the
      * internal instances of the entity manager, component manager, and system manager.
-     *
+     * <p>
      * This method provides the option of specifying the maximum amount of entities to be in the {@code World} at once
      * through the specified integer parameter. The parameter specified must also be at least 1; if the parameter is
      * below 1, an {@link IllegalStateException} will be thrown, specifying the aforementioned rule.
@@ -148,10 +148,10 @@ public class World {
      * This is the sole method which enables you to add entities to the {@code World}. An entity gets created within the
      * {@code World}'s {@link #entityManager}, and the component/system managers do not get notified since the state of
      * the entity's components do not change.
-     *
+     * <p>
      * If you attempt to create a new entity when the maximum entity count has been reached, an {@link
      * IllegalStateException} will be thrown stating this.
-     *
+     * <p>
      * When working with entities in Slope, the
      * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Entities" target="_blank">entities wiki page</a> is
      * incredibly useful. It contains some of the most relevant information as to how entities work in a bigger
@@ -198,7 +198,7 @@ public class World {
      * World}'s {@link #entityManager}. Then, the component manager and system managers get notified of the entity
      * having been destroyed -- any components the entity had, or systems the entity were in, have those corresponding
      * values removed.
-     *
+     * <p>
      * If you try to remove an entity that is not alive within the {@code World}'s list of entities, an {@link
      * IllegalStateException} will be thrown. The exception will be thrown for one of a few reasons:
      * <ul>
@@ -206,7 +206,7 @@ public class World {
      *     <li>The entity is larger than the maximum entity (entity IDs are ordered numbers)</li>
      *     <li>The entity is within the valid range, but is found to be in the list of </li>
      * </ul>
-     *
+     * <p>
      * When working with entities in Slope, the
      * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Entities" target="_blank">entities wiki page</a> is
      * incredibly useful. It contains some of the most relevant information as to how entities work in a bigger picture.
@@ -254,10 +254,10 @@ public class World {
      * <h4>About</h4>
      * This method allows components of the specified class to be used in the {@code World}. It tells the {@link
      * #componentManager} to create storage for the specified type so that entities can add components of that type.
-     *
+     * <p>
      * If you try to add a component that has already been added, an {@link IllegalStateException} will be thrown -- a
      * component class should not be registered more than once.
-     *
+     * <p>
      * When working with components in Slope, the
      * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Components" target="_blank">components wiki page</a> is
      * incredibly useful. It contains some of the most relevant information as to how components work in a bigger
@@ -293,8 +293,8 @@ public class World {
      *
      * <h4>About</h4>
      * This is the sole method allowing you to bind a component (of a type that implements {@link IComponent}) to an
-     * entity. (Do note that the component is not <strong>literally</strong> binded to the entity.
-     *
+     * entity. (Do note that the component is not <strong>literally</strong> bound to the entity.
+     * <p>
      * Any entity can be given any component, as long as these rules are followed:
      * <ul>
      *     <li>The component to add must first be registered in the {@code World}, via {@link
@@ -303,13 +303,13 @@ public class World {
      *     not limited, but it can only have one instance of that type of component. Trying to add more than one
      *     component of that type will result in an {@link IllegalStateException}.</li>
      * </ul>
-     *
+     * <p>
      * Once an entity is given a component, that component will be available for retrieval via {@link
      * #getComponent(int, Class)}, which only requires the entity and the class of the component to retrieve.
-     *
+     * <p>
      * If an entity is removed from a component ({@link #removeComponent(int, Class)}), a new one can be added in its
      * place through this same method.
-     *
+     * <p>
      * When working with components in Slope, the
      * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Components" target="_blank">components wiki page</a> is
      * incredibly useful. It contains some of the most relevant information as to how components work in a bigger
@@ -360,18 +360,18 @@ public class World {
      * <h4>About</h4>
      * This is the sole method to remove a component (that is aliased to an entity) from the {@code World}. Once a
      * component has been added to the {@code World}, it can then be removed.
-     *
+     * <p>
      * This method removes the component in the {@link #componentManager}. This change is then passed to the {@link
      * #systemManager}, which checks each of its systems. If the entity no longer meets the requirements for the system,
      * it is removed from that system.
-     *
+     * <p>
      * A few notes about entities:
      * <ul>
      *     <li>If an entity is destroyed ({@link #destroyEntity(int)}), then its components are also automatically
      *     removed -- the components do not need to be removed manually.</li>
      *     <li>If an entity no longer has any components in the ECS, it is still alive in the ECS.</li>
      * </ul>
-     *
+     * <p>
      * When working with components in Slope, the
      * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Components" target="_blank">components wiki page</a> is
      * incredibly useful. It contains some of the most relevant information as to how components work in a bigger
@@ -420,10 +420,10 @@ public class World {
      * This is the sole method in the {@code World} class to get a component associated with an entity. It grabs the
      * entity from the {@link #entityManager}, which grabs the component from its storage of components. That component
      * is then returned.
-     *
+     * <p>
      * An entity has to have a component in order to get that component. If the entity does not have that component, or
      * the component was removed/entity was destroyed, then an {@link IllegalStateException} will be thrown.
-     *
+     * <p>
      * When working with components in Slope, the
      * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Components" target="_blank">components wiki page</a> is
      * incredibly useful. It contains some of the most relevant information as to how components work in a bigger
@@ -465,11 +465,11 @@ public class World {
      * signature gets modified. The bit at this method's return value (corresponding to the component added/removed) is
      * set to true/false. This signature is what enables a system to check its signature against an entity's, ensuring
      * only entities with certain components are accepted.
-     *
+     * <p>
      * The above also allows you to check the entity's signature to see if it has a certain component. If the bit for
      * that component (the bit value is gotten from this method) is set to true, then the entity has that component. If
      * it is false, then it does not have the component.
-     *
+     * <p>
      * When working with components in Slope, the
      * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Components" target="_blank">components wiki page</a> is
      * incredibly useful. It contains some of the most relevant information as to how components work in a bigger
@@ -515,7 +515,7 @@ public class World {
      * systems to Slope, I highly suggest you look at the
      * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Systems" target="_blank">wiki page for systems</a>. It is
      * the best resource for understanding the bigger picture on how things work in Slope.
-     *
+     * <p>
      * This method instantiates a system and adds it to the ECS, returning a reference to the system. It does not add
      * any components to the system -- these must be defined yourself using the {@link #setSystemSignature(Class,
      * BitSet)} method. Once again, this is the more error-prone version of setting up a system -- for a friendlier
@@ -555,6 +555,7 @@ public class World {
      * <h4>About</h4>
      * For general information about this method, see {@link #registerSystem(Class)}. For information about the {@code
      * arguments} parameter, see {@link ECSSystemManager#registerSystem(Class, LinkedHashMap)}.
+     *
      * <h4>Example Usages</h4>
      * <pre>{@code
      * // Assume classes SomeSystem and CustomClass exist.
@@ -604,7 +605,7 @@ public class World {
      * system accepts; any bit set to true (you access the bit index for a component using the {@link
      * #getComponentType(Class)} method) will be a requirement for entities to have before being added to the system's
      * entities.
-     *
+     * <p>
      * This method is part of the more error-prone way of defining a system. If you're looking to learn about how to add
      * systems to Slope, I highly suggest you look at the
      * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki/Systems" target="_blank">wiki page for systems</a>. It is

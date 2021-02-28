@@ -19,7 +19,7 @@ import java.util.Map;
  * This class is one of three managers (see: {@link ECSEntityManager}, {@link ECSComponentManager}) used within
  * Slope-ECS. It serves the main purpose of storing systems and their signatures, as well as updating those systems
  * based on changes to entity signatures.
- *
+ * <p>
  * Considering this is only one of three managers in Slope-ECS, it is better to use the {@link World} class to manage
  * the ECS. In order to see that class in action, you should check the
  * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">wiki</a> -- it is the best way to get an
@@ -74,7 +74,7 @@ public class ECSSystemManager {
      * <h4>About</h4>
      * This is the method called by {@link World#registerSystem(Class, LinkedHashMap)}, allowing you to register/create
      * a system within Slope-ECS. For more information, see {@link World#registerSystem(Class, LinkedHashMap)}.
-     *
+     * <p>
      * The arguments for construct the system are formatted as a {@code java.util.LinkedHashMap}. Specifically a {@code
      * LinkedHashMap}, in order to retain the order of the arguments you put in. Each entry in the map must be formatted
      * such that:
@@ -183,7 +183,7 @@ public class ECSSystemManager {
      * <h4>About</h4>
      * This is the method called by {@link World#destroyEntity(int)} -- it removes all instances of the entity from each
      * system in the manager. For more information, see {@link World#destroyEntity(int)}.
-     *
+     * <p>
      * If you are working with the {@link World} class, this method should not be called directly. The {@code World}
      * handles this internally.
      *
@@ -232,7 +232,7 @@ public class ECSSystemManager {
      * This is the method called by {@link World#addComponent(int, IComponent)}/{@link World#removeComponent(int,
      * Class)} -- it iterates over each system, removing the entity if its signature no longer satisfies the
      * requirements for a system. For more information, see those two methods.
-     *
+     * <p>
      * When an entity is passed into this method, its signature is checked against each system's signature. If the
      * system's signature cannot be derived from within the entity's signature -- that is, a bitwise AND operation is
      * performed to check if the system signature is a subset of the entity signature.
@@ -296,7 +296,7 @@ public class ECSSystemManager {
      *
      * <h4>About</h4>
      * Based on the system class specified, this method gets the signature for that system.
-     *
+     * <p>
      * If the system class is not registered (see: {@link #registerSystem(Class, LinkedHashMap)}), then the returned
      * value will be null.
      *
@@ -315,7 +315,7 @@ public class ECSSystemManager {
      *
      * <h4>About</h4>
      * Based on the system class specified, this method gets that system.
-     *
+     * <p>
      * If the system is not registered (see: {@link #registerSystem(Class, LinkedHashMap)}), then an {@link
      * IllegalStateException} will be thrown.
      *
