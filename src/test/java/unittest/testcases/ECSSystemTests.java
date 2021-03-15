@@ -5,7 +5,6 @@ import io.github.lucasstarsz.slopeecs.system.ECSSystemBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import unittest.mock.components.PositionComponent;
-import unittest.mock.components.UniqueComponent;
 import unittest.mock.components.VelocityComponent;
 import unittest.mock.systems.EmptySystem;
 import unittest.mock.systems.GravitySystem;
@@ -40,27 +39,11 @@ public class ECSSystemTests {
         entities = new int[world.getMaxEntities() - 1];
         positionComponents = new PositionComponent[world.getMaxEntities() - 1];
 
-        /* Register components */
-        world.registerComponent(PositionComponent.class);
-        world.registerComponent(VelocityComponent.class);
-        world.registerComponent(UniqueComponent.class);
-
-        /* Create systems using ECSSystemBuilder */
-        gravitySystem = new ECSSystemBuilder<>(world, GravitySystem.class)
-                .withComponent(PositionComponent.class)
-                .withComponent(VelocityComponent.class)
-                .build();
-
-        positionSystem = new ECSSystemBuilder<>(world, PositionSystem.class)
-                .withComponent(PositionComponent.class)
-                .build();
-
-        emptySystem = new ECSSystemBuilder<>(world, EmptySystem.class)
-                .build();
-
-        uniqueSystem = new ECSSystemBuilder<>(world, UniqueSystem.class)
-                .withComponent(UniqueComponent.class)
-                .build();
+        /* Register systems */
+        gravitySystem = world.registerSystem(GravitySystem.class);
+        positionSystem = world.registerSystem(PositionSystem.class);
+        emptySystem = world.registerSystem(EmptySystem.class);
+        uniqueSystem = world.registerSystem(UniqueSystem.class);
 
         /* Create entities/add components */
         for (int i = 0; i < entities.length; i++) {
@@ -113,40 +96,40 @@ public class ECSSystemTests {
 
     @Test
     public void checkSystemEntityCount_whenSystemHasSomeComponents() {
-        assertEquals("All entities with the PositionComponent component should be found in PositionSystem.", world.getMaxEntities(), positionSystem.getEntityCount());
+        assertEquals("All entities with the PositionComponent component should be found in PositionSystem.", world.getMaxEntities(), positionSystem.getEntityCount(world));
     }
 
     @Test
     public void checkSystemEntityCount_whenSystemHasNoComponents() {
-        assertEquals("All entities should be found in EmptySystem.", world.getMaxEntities(), emptySystem.getEntityCount());
+        assertEquals("All entities should be found in EmptySystem.", world.getMaxEntities(), emptySystem.getEntityCount(world));
     }
 
     @Test
     public void checkSystemEntityCount_whenSystemHasAllComponents() {
-        assertEquals("All entities with PositionComponent and VelocityComponent components should be found in GravitySystem.", 1, gravitySystem.getEntityCount());
+        assertEquals("All entities with PositionComponent and VelocityComponent components should be found in GravitySystem.", 1, gravitySystem.getEntityCount(world));
     }
 
     @Test
     public void checkSystemEntityCount_whenSystemRequiresComponentNoEntityHas() {
-        assertEquals("No entities should be found in UniqueSystem, since it requires UniqueComponent which no entity has.", 0, uniqueSystem.getEntityCount());
+        assertEquals("No entities should be found in UniqueSystem, since it requires UniqueComponent which no entity has.", 0, uniqueSystem.getEntityCount(world));
     }
 
     @Test
     public void checkSystemEntityCount_afterEntityIsRemoved() {
         world.destroyEntity(singleEntity);
-        assertEquals("Entity count in GravitySystem should be 0 after its only entity was destroyed.", 0, gravitySystem.getEntityCount());
+        assertEquals("Entity count in GravitySystem should be 0 after its only entity was destroyed.", 0, gravitySystem.getEntityCount(world));
     }
 
     @Test
     public void checkGetComponentsAfterModification_shouldMatchSingleEntity() {
-        gravitySystem.update(false);
+        world.runSystem(GravitySystem.class);
         assertEquals("Components should match after modification.", singlePositionComponent, world.getComponent(singleEntity, PositionComponent.class));
         assertEquals("Components should match after modification.", singleVelocityComponent, world.getComponent(singleEntity, VelocityComponent.class));
     }
 
     @Test
     public void checkGetComponentsAfterModification_shouldMatchEntities() {
-        positionSystem.update(false);
+        world.runSystem(PositionSystem.class);
         for (int i = 0; i < entities.length; i++) {
             assertEquals("Components should match after modification.", positionComponents[i], world.getComponent(entities[i], PositionComponent.class));
         }

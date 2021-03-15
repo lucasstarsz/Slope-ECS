@@ -1,11 +1,24 @@
 package unittest.mock.systems;
 
+import io.github.lucasstarsz.slopeecs.World;
+import io.github.lucasstarsz.slopeecs.component.IComponent;
 import io.github.lucasstarsz.slopeecs.system.ECSSystem;
 import unittest.mock.components.PositionComponent;
 
-public class PositionSystem extends ECSSystem {
+import java.util.Set;
 
-    public void update(boolean printEntityInfo) {
+public class PositionSystem implements ECSSystem {
+
+//    public void update(boolean printEntityInfo) {
+//    }
+
+    @Override
+    public Set<Class<? extends IComponent>> getComponentsList() {
+        return Set.of(PositionComponent.class);
+    }
+
+    @Override
+    public void update(World world, Set<Integer> entities) {
         for (int entity : entities) {
 
             // get components
@@ -15,14 +28,6 @@ public class PositionSystem extends ECSSystem {
             positionComponent.x++;
             positionComponent.y++;
 
-            // print results
-            if (printEntityInfo) {
-                System.out.println(
-                        "Entity: " + entity
-                                + System.lineSeparator()
-                                + "Position: " + positionComponent.x + ", " + positionComponent.y
-                );
-            }
         }
     }
 }
