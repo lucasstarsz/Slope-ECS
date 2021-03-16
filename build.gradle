@@ -160,3 +160,19 @@ if (shouldPublish) {
         sign publishing.publications.slopePublish
     }
 }
+
+// java 16
+
+compileJava {
+    options.release.set(16)
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(16)
+    }
+}
+
+tasks.withType( JavaCompile ).configureEach {
+    options.forkOptions.jvmArgs.addAll( ['--add-opens', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED'] )
+}
