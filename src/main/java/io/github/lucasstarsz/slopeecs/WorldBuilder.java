@@ -15,6 +15,12 @@ public class WorldBuilder {
         entityGenPairs = new ArrayList<>();
     }
 
+    public WorldBuilder reset() {
+        systemsMapping.clear();
+        entityGenPairs.clear();
+        return this;
+    }
+
     public WorldBuilder withSystems(Map<Class<? extends ECSSystem>, List<?>> systemsWithArgs) {
         systemsMapping.putAll(systemsWithArgs);
         return this;
@@ -67,12 +73,6 @@ public class WorldBuilder {
     public WorldBuilder setEntities(int entityCount, Component... components) {
         entityGenPairs.clear();
         return withEntities(entityCount, components);
-    }
-
-    public WorldBuilder reset() {
-        systemsMapping.clear();
-        entityGenPairs.clear();
-        return this;
     }
 
     public WorldBuilder resetSystems() {

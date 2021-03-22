@@ -2,83 +2,139 @@ package io.github.lucasstarsz.slopeecs.system;
 
 import io.github.lucasstarsz.slopeecs.World;
 import io.github.lucasstarsz.slopeecs.component.Component;
+import io.github.lucasstarsz.slopeecs.util.Defaults;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class ECSSystemManager {
 
     private final World world;
-    private final Map<String, BitSet> systemSignatures = new HashMap<>();
-    private final Map<String, ECSSystem> systems = new HashMap<>();
-    private final Map<String, Set<Integer>> systemEntities = new HashMap<>();
+
+    private final Map<String, Integer> systemTypes;
+    private final Deque<Integer> systemTypeQueue;
+    private int nextSystemType;
+
+    private final Map<Integer, ECSSystem> systems;
+    private final Map<Integer, SystemMetadata> dataMappings;
 
     public ECSSystemManager(World world) {
         this.world = world;
+
+        systemTypes = new HashMap<>();
+        systemTypeQueue = new ArrayDeque<>(Defaults.initialSystemCount);
+        for (int i = 0; i < Defaults.initialSystemCount; i++) {
+            systemTypeQueue.push(nextSystemType++);
+        }
+
+        systems = new LinkedHashMap<>();
+        dataMappings = new LinkedHashMap<>();
+    }
+
+    public <T extends ECSSystem> T addSystem(Class<T> systemClass) {
+        T system = instantiateSystem(systemClass, null);
+        return createSystemSignature(system);
+    }
+
+    public <T extends ECSSystem> T addSystem(Class<T> systemClass, List<?> systemArgs) {
+        T system = instantiateSystem(systemClass, systemArgs);
+        return createSystemSignature(system);
     }
 
     public ECSSystem[] addSystems(Map<Class<? extends ECSSystem>, List<?>> systemsMap) {
         ECSSystem[] generatedSystems = new ECSSystem[systemsMap.size()];
-        int i = 0;
 
+        int i = 0;
         for (var systemPair : systemsMap.entrySet()) {
             Class<? extends ECSSystem> systemClass = systemPair.getKey();
             List<?> systemArgs = systemPair.getValue();
-            String systemType = systemClass.getTypeName();
 
-            if (systems.get(systemType) != null) {
-                throw new IllegalStateException("System with class " + systemType + " is already registered.");
-            }
+            ECSSystem system = instantiateSystem(systemClass, systemArgs);
+            int systemType = systemTypes.get(systemClass.getTypeName());
 
-            try {
-                if (systemArgs == null || systemArgs.size() == 0) {
-                    // create system using the default constructor
-                    ECSSystem system = systemClass.getDeclaredConstructor().newInstance();
-
-                    systems.put(systemType, system);
-                    generatedSystems[i] = system;
-                } else {
-                    // create system using user-defined constructor
-                    Class<?>[] params = new Class<?>[systemArgs.size()];
-                    for (int j = 0; j < params.length; j++) {
-                        params[j] = systemArgs.get(j).getClass();
-                    }
-
-                    ECSSystem system = systemClass.getDeclaredConstructor(params).newInstance(systemArgs);
-                    systems.put(systemType, system);
-                    generatedSystems[i] = system;
-                }
-
-                systemEntities.put(systemType, new LinkedHashSet<>());
-            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
+            systems.put(systemType, system);
+            generatedSystems[i] = system;
         }
 
-        registerSystems(generatedSystems);
-
-        return generatedSystems;
+        return createSystemSignatures(generatedSystems);
     }
 
-    public <T extends ECSSystem> T addSystem(Class<T> systemClass) {
-        return addSystem(systemClass, null);
-    }
-
-    public <T extends ECSSystem> T addSystem(Class<T> systemClass, List<?> systemArgs) {
+    public <T extends ECSSystem> void removeSystem(Class<T> systemClass) {
         String systemType = systemClass.getTypeName();
-
-        if (systems.get(systemType) != null) {
-            throw new IllegalStateException("System with class " + systemType + " is already registered.");
+        if (!isRegistered(systemClass)) {
+            throw new IllegalStateException("A system with the class " + systemType + " has not been registered.");
         }
 
-        T system = null;
+        int systemTypeInt = systemTypes.get(systemType);
+        systems.remove(systemTypeInt);
+        systemTypes.remove(systemType);
+        dataMappings.remove(systemTypeInt);
+
+        // recycle the system type, in case we have use for it later
+        systemTypeQueue.push(systemTypeInt);
+    }
+
+    @SafeVarargs
+    public final <T extends ECSSystem> void removeSystems(Class<T>... systemClasses) {
+        for (Class<T> systemClass : systemClasses) {
+            removeSystem(systemClass);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends ECSSystem> T getSystem(Class<T> systemClass) {
+        String systemType = systemClass.getTypeName();
+        if (isRegistered(systemClass)) {
+            throw new IllegalStateException("A system with the class " + systemType + " has already been registered.");
+        }
+
+        return (T) systems.get(systemTypes.get(systemType));
+    }
+
+    public <T extends ECSSystem> boolean isRegistered(Class<T> systemClass) {
+        return systemTypes.containsKey(systemClass.getTypeName());
+    }
+
+    public <T extends ECSSystem> SystemMetadata getSystemMetadata(Class<T> systemClass) {
+        String systemType = systemClass.getTypeName();
+        if (!isRegistered(systemClass)) {
+            throw new IllegalStateException("A system with the class " + systemType + " has not been registered.");
+        }
+
+        return dataMappings.get(systemTypes.get(systemType));
+    }
+
+    public void entityChanged(int entity, BitSet signature) {
+        if (dataMappings.size() > 1000) {
+            dataMappings.values().parallelStream()
+                    .forEach(systemMetadata -> systemMetadata.entityChanged(entity, signature));
+        } else {
+            for (SystemMetadata metadata : dataMappings.values()) {
+                metadata.entityChanged(entity, signature);
+            }
+        }
+    }
+
+    public void entityDestroyed(int entity) {
+        destroyEntitiesInMetadata(entity);
+    }
+
+    public void entitiesDestroyed(int... entities) {
+        destroyEntitiesInMetadata(entities);
+    }
+
+    private <T extends ECSSystem> T instantiateSystem(Class<T> systemClass, List<?> systemArgs) {
+        registerSystemType(systemClass);
+
+        Integer systemType = systemTypes.get(systemClass.getTypeName());
+        T system;
 
         try {
             if (systemArgs == null || systemArgs.size() == 0) {
                 // create system using the default constructor
                 system = systemClass.getDeclaredConstructor().newInstance();
-                systems.put(systemType, system);
             } else {
                 // create system using user-defined constructor
                 Class<?>[] params = new Class<?>[systemArgs.size()];
@@ -87,20 +143,51 @@ public class ECSSystemManager {
                 }
 
                 system = systemClass.getDeclaredConstructor(params).newInstance(systemArgs);
-                systems.put(systemType, system);
             }
 
-            systemEntities.put(systemType, new LinkedHashSet<>());
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
+            system.world = this.world;
+            systems.put(systemType, system);
 
-        registerSystems(system);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            // TODO: proper handling of exceptions instead of throwing e
+            throw new IllegalStateException("Something went awry while instantiating a system.", e);
+        }
 
         return system;
     }
 
-    public void registerSystems(ECSSystem... systems) {
+    private <T extends ECSSystem> void registerSystemType(Class<T> systemClass) {
+        String systemType = systemClass.getTypeName();
+        if (isRegistered(systemClass)) {
+            throw new IllegalStateException("A system with the class " + systemType + " has already been registered.");
+        }
+
+        systemTypes.put(systemType, systemTypeQueue.pop());
+        if (systemTypeQueue.size() == 0) {
+            systemTypeQueue.push(nextSystemType++);
+        }
+    }
+
+    private <T extends ECSSystem> T createSystemSignature(T system) {
+        Set<Class<? extends Component>> components = system.getComponentsList();
+        BitSet systemSignature = new BitSet(components.size());
+
+        for (var component : components) {
+            // ensure the component class is registered before adding the signature
+            if (!world.componentManager().isComponentRegistered(component)) {
+                world.componentManager().registerComponent(component);
+            }
+
+            systemSignature.set(world.componentManager().getComponentType(component), true);
+        }
+
+        int systemTypeInt = systemTypes.get(system.getClass().getTypeName());
+        dataMappings.put(systemTypeInt, new SystemMetadata(systemSignature));
+
+        return system;
+    }
+
+    private ECSSystem[] createSystemSignatures(ECSSystem... systems) {
         for (ECSSystem system : systems) {
             Set<Class<? extends Component>> components = system.getComponentsList();
             BitSet systemSignature = new BitSet(components.size());
@@ -113,96 +200,44 @@ public class ECSSystemManager {
 
                 systemSignature.set(world.componentManager().getComponentType(component), true);
             }
-            systemSignatures.put(system.getClass().getTypeName(), systemSignature);
-        }
-    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public <T extends ECSSystem> void setSignature(Class<T> signatureClass, BitSet signature) {
-        String typeName = signatureClass.getTypeName();
-
-        if (systems.get(typeName) == null) {
-            throw new IllegalStateException("System with class " + typeName + " was used before it was registered.");
+            int systemTypeInt = systemTypes.get(system.getClass().getTypeName());
+            dataMappings.put(systemTypeInt, new SystemMetadata(systemSignature));
         }
 
-        // Set the signature for this system
-        systemSignatures.put(typeName, signature);
+        return systems;
     }
 
-    public void entityDestroyed(int entity) {
-        for (Map.Entry<String, Set<Integer>> entry : systemEntities.entrySet()) {
-            entry.getValue().remove(entity);
-        }
-    }
+    public void destroyEntitiesInMetadata(int... entities) {
+        if (entities.length > 1000) {
+            // convert to set for use of Set#removeAll
+            Set<Integer> entitiesSet = Arrays.stream(entities)
+                    .parallel().boxed()
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
 
-    public void entitySignatureChanged(int entity, BitSet entitySignature) {
-        for (Map.Entry<String, Set<Integer>> entry : systemEntities.entrySet()) {
-            BitSet systemSignature = systemSignatures.get(entry.getKey());
-
-            /* The BitSet class in java does not produce a new BitSet when doing bitwise operations -- the operations
-             * are applied to the BitSet that the method is called on.
-             * As such, we need to create a clone to avoid messing up the original BitSet. */
-            BitSet entitySignatureClone = (BitSet) entitySignature.clone();
-            entitySignatureClone.and(systemSignature);
-
-            if (entitySignatureClone.equals(systemSignature)) {
-                // Entity signature contains system signature - insert into set
-                entry.getValue().add(entity);
+            if (dataMappings.size() > 1000) {
+                dataMappings.values().parallelStream()
+                        .forEach(systemMetadata -> systemMetadata.entitiesDestroyed(entitiesSet));
             } else {
-                // Entity signature does not contain system signature - erase from set
-                entry.getValue().remove(entity);
+                for (SystemMetadata metadata : dataMappings.values()) {
+                    metadata.entitiesDestroyed(entitiesSet);
+                }
+            }
+        } else {
+            for (int entity : entities) {
+                if (dataMappings.size() > 1000) {
+                    dataMappings.values().parallelStream()
+                            .forEach(systemMetadata -> systemMetadata.entityDestroyed(entity));
+                } else {
+                    for (SystemMetadata metadata : dataMappings.values()) {
+                        metadata.entityDestroyed(entity);
+                    }
+                }
             }
         }
     }
 
-    public void runSystems(World world) {
-        for (Map.Entry<String, ECSSystem> system : systems.entrySet()) {
-            system.getValue().update(world, systemEntities.get(system.getKey()));
-        }
-    }
-
-    public <T extends ECSSystem> void runSystem(World world, Class<T> systemClass) {
-        systems.get(systemClass.getTypeName()).update(world, systemEntities.get(systemClass.getTypeName()));
-    }
-
-
-    public <T extends ECSSystem> BitSet getSystemSignature(Class<T> systemClass) {
-        return systemSignatures.get(systemClass.getTypeName());
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends ECSSystem> T getSystem(Class<T> systemClass) {
-        T system = (T) systems.get(systemClass.getTypeName());
-
-        if (system == null) {
-            throw new IllegalStateException("Could not find a system with the class " + systemClass.getTypeName());
-        }
-
-        return system;
-    }
-
-    public <T extends ECSSystem> Set<Integer> getEntities(Class<T> systemClass) {
-        return systemEntities.get(systemClass.getTypeName());
-    }
-
     public int getSystemCount() {
-        return systems.values().size();
+        return systems.size();
     }
 }

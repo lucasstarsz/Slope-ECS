@@ -3,7 +3,6 @@ package examples.guessinggame.game;
 import examples.guessinggame.components.NumberHolder;
 import examples.guessinggame.systems.NumberSystem;
 import io.github.lucasstarsz.slopeecs.World;
-import io.github.lucasstarsz.slopeecs.system.ECSSystemBuilder;
 
 import java.io.IOException;
 
@@ -28,22 +27,17 @@ public class GuessingGame {
         guesses = 0;
 
         // reset ECS
-        guessingWorld.init(entityAmount);
-        guessingWorld.registerComponent(NumberHolder.class);
+        guessingWorld.reset(entityAmount);
 
-        numberSystem = new ECSSystemBuilder<>(guessingWorld, NumberSystem.class)
-                .withComponent(NumberHolder.class)
-                .build();
+        numberSystem = guessingWorld.addSystem(NumberSystem.class);
 
         for (int i = 0; i < entityAmount; i++) {
-            int entity = guessingWorld.createEntity();
             NumberHolder holder = new NumberHolder();
-
             if (i == specialEntity) {
                 holder.number = 13;
             }
 
-            guessingWorld.addComponent(entity, holder);
+            guessingWorld.addComponents(guessingWorld.generateEntityID(), holder);
         }
     }
 
@@ -58,7 +52,7 @@ public class GuessingGame {
             } else {
                 System.out.println("Hmm, not quite! To make it easier for you, I'll remove that number.");
                 System.out.println("(Ironically, this means you need to keep track of what entities were removed, which makes this harder...)" + System.lineSeparator().repeat(3));
-                guessingWorld.destroyEntity(guess[0]);
+                guessingWorld.destroyEntityIDs(guess[0]);
             }
         }
     }

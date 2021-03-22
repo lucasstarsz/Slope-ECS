@@ -3,6 +3,8 @@ package io.github.lucasstarsz.slopeecs.entity;
 import io.github.lucasstarsz.slopeecs.World;
 import io.github.lucasstarsz.slopeecs.component.Component;
 
+import java.util.BitSet;
+
 public class Entity {
     private final World world;
     private final int id;
@@ -17,12 +19,16 @@ public class Entity {
         this.id = entityID;
     }
 
-    public World getWorld() {
+    public World world() {
         return world;
     }
 
-    public int getID() {
+    public int id() {
         return id;
+    }
+
+    public BitSet signature() {
+        return world.entityManager().getSignature(id);
     }
 
     public void addComponents(Component... components) {
@@ -35,6 +41,10 @@ public class Entity {
 
     public <T extends Component> T getComponent(Class<T> componentClass) {
         return world.componentManager().getComponent(id, componentClass);
+    }
+
+    public boolean isAlive() {
+        return world.entityManager().isAlive(id);
     }
 
     public static Entity create(World world, Component... components) {

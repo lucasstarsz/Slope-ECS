@@ -7,37 +7,31 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
 public class ECSInitialStateTests {
-    private final World world = new World();
+    private World world;
 
     @Before
     public void initialize() {
-        /* To avoid longer initialization times, the maximum entity count is set to 1.
-         * This does not affect the result of the tests. */
-        world.init(1);
+        /* These tests only need an empty world -- no builder necessary. */
+        world = new World();
     }
 
     @Test
     public void checkInitialLivingEntityCount() {
-        assertEquals("No entities should be present.", 0, world.getEntityManager().getLivingEntityCount());
-    }
-
-    @Test
-    public void checkInitialAvailableEntityCount() {
-        assertEquals("Every entity slot should be available.", world.getMaxEntities(), world.getEntityManager().getAvailableEntityCount());
+        assertEquals("No entities should be present.", 0, world.entityManager().getLivingEntityCount());
     }
 
     @Test
     public void checkInitialComponentCount() {
-        assertEquals("No components should have been registered.", 0, world.getComponentManager().getRegisteredComponentCount());
+        assertEquals("No components should have been registered.", 0, world.componentManager().getRegisteredComponentCount());
     }
 
     @Test
     public void checkInitialComponentArrayCount() {
-        assertEquals("No component arrays should have been added.", 0, world.getComponentManager().getComponentArrayCount());
+        assertEquals("No component arrays should have been added.", 0, world.componentManager().getComponentArrayCount());
     }
 
     @Test
     public void checkInitialSystemCount() {
-        assertEquals("No systems should have been added.", 0, world.getSystemManager().getSystemCount());
+        assertEquals("No systems should have been added.", 0, world.systemManager().getSystemCount());
     }
 }

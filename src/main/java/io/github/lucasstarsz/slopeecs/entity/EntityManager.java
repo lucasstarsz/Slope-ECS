@@ -8,44 +8,91 @@ public class EntityManager {
 
     private final World world;
 
+    private final Deque<Integer> entityQueue;
+    private final Map<Integer, Entity> entities;
+    private final Map<Integer, Entity> deadEntities;
     private final Map<Integer, BitSet> entitySignatures;
 
-    private final Deque<Integer> availableEntities = new LinkedList<>();
-
-    private final Map<Integer, Entity> entities;
-
-    private int livingEntityCount;
     private int lastEntityCreated;
+    private int highestEntityIDCreated;
+    private int livingEntityCount;
+
 
     public EntityManager(World world, int initialEntityCount) {
         this.world = world;
 
+        entityQueue = new ArrayDeque<>(initialEntityCount);
         entities = new LinkedHashMap<>(initialEntityCount);
+        deadEntities = new LinkedHashMap<>();
         entitySignatures = new LinkedHashMap<>(initialEntityCount);
 
         for (int i = 0; i < initialEntityCount; i++) {
-            availableEntities.push(i);
+            entityQueue.push(i);
         }
     }
 
     public int[] createEntities(int entityCount) {
         int[] generatedEntities = new int[entityCount];
 
-        // if needed, make space for generating entities
-        if (availableEntities.size() < entityCount) {
-            for (int i = lastEntityCreated + 1; i < lastEntityCreated + entityCount; i++) {
-                availableEntities.push(i);
+        for (int i = 0; i < generatedEntities.length; i++) {
+            if (entityQueue.size() > 0) {
+                // Take an entity ID from the front of the queue
+                lastEntityCreated = entityQueue.pop();
+                generatedEntities[i] = lastEntityCreated;
+
+                entities.put(lastEntityCreated, Entity.create(world, lastEntityCreated));
+                highestEntityIDCreated = Math.max(highestEntityIDCreated, lastEntityCreated);
+            } else if (deadEntities.size() == 0) {
+                // Add new entity to queue
+                entityQueue.push(++highestEntityIDCreated);
+                lastEntityCreated = entityQueue.pop();
+                generatedEntities[i] = lastEntityCreated;
+
+                entities.put(lastEntityCreated, Entity.create(world, lastEntityCreated));
+            } else {
+                // Take entity from dead entities
+                Entity entity = deadEntities.remove(deadEntities.keySet().iterator().next());
+                lastEntityCreated = entity.id();
+                generatedEntities[i] = lastEntityCreated;
+
+                entities.put(lastEntityCreated, entity);
+                highestEntityIDCreated = Math.max(highestEntityIDCreated, lastEntityCreated);
             }
+
+            setSignature(lastEntityCreated, new BitSet());
         }
 
-        for (int i = 0; i < entityCount; i++) {
-            int entity = availableEntities.pop();
-            generatedEntities[i] = entity;
-            entities.put(entity, Entity.create(world, entity));
-        }
         livingEntityCount += entityCount;
-
         return generatedEntities;
+    }
+
+    public int createEntity() {
+        if (entityQueue.size() > 0) {
+            // Take an entity ID from the front of the queue
+            lastEntityCreated = entityQueue.pop();
+
+            entities.put(lastEntityCreated, Entity.create(world, lastEntityCreated));
+            highestEntityIDCreated = Math.max(highestEntityIDCreated, lastEntityCreated);
+        } else if (deadEntities.size() == 0) {
+            // Add new entity to queue
+            entityQueue.push(++highestEntityIDCreated);
+            lastEntityCreated = entityQueue.pop();
+
+            entities.put(lastEntityCreated, Entity.create(world, lastEntityCreated));
+        } else {
+            // Take entity from dead entities
+            Entity entity = deadEntities.remove(deadEntities.keySet().iterator().next());
+            lastEntityCreated = entity.id();
+
+            entities.put(lastEntityCreated, entity);
+            highestEntityIDCreated = Math.max(highestEntityIDCreated, lastEntityCreated);
+        }
+
+        // add entity signature
+        setSignature(lastEntityCreated, new BitSet());
+        livingEntityCount++;
+
+        return lastEntityCreated;
     }
 
     public Entity[] getEntities(int... entityIDs) {
@@ -63,6 +110,7 @@ public class EntityManager {
         return grabbedEntities;
     }
 
+
     public Entity getEntity(int entityID) {
         if (!isAlive(entityID)) {
             throw new IllegalStateException("Entity " + entityID + " is not alive in the ECS.");
@@ -71,44 +119,62 @@ public class EntityManager {
         return entities.get(entityID);
     }
 
-    public void setEntitySignatures(Map<Integer, BitSet> entitiesAndSignatures) {
-        // ensure entities are alive
-        for (var entitySignaturePair : entitiesAndSignatures.entrySet()) {
-            if (!isAlive(entitySignaturePair.getKey())) {
-                throw new IllegalStateException("Entity " + entitySignaturePair.getKey() + " is not alive in the ECS.");
-            }
+    public void destroyEntity(int destroyedEntity) {
+        if (!isAlive(destroyedEntity)) {
+            throw new IllegalStateException("Entity " + destroyedEntity + " is not alive in the ECS.");
         }
 
-        entitySignatures.putAll(entitiesAndSignatures);
-    }
-
-
-    public int createEntity() {
-        // Take an ID from the front of the queue
-        lastEntityCreated = availableEntities.pop();
-        livingEntityCount++;
-
-        // fill available entities if none are available
-        if (availableEntities.size() == 0) {
-            availableEntities.push(lastEntityCreated + 1);
-        }
-
-        return lastEntityCreated;
-    }
-
-    public void destroyEntity(int entity) {
-        if (!isAlive(entity)) {
-            throw new IllegalStateException("Entity " + entity + " is not alive in the ECS.");
-        }
+        // transfer dead entity
+        deadEntities.put(destroyedEntity, entities.remove(destroyedEntity));
 
         // invalidate the destroyed entity's signature
-        if (entitySignatures.get(entity) != null) {
-            entitySignatures.get(entity).clear();
+        if (entitySignatures.get(destroyedEntity) != null) {
+            entitySignatures.get(destroyedEntity).clear();
         }
 
         // Put the destroyed ID at the back of the queue
-        availableEntities.push(entity);
+        entityQueue.push(destroyedEntity);
         livingEntityCount--;
+    }
+
+    public void destroyEntities(int... destroyedEntities) {
+        if (destroyedEntities.length > 1000) {
+            Arrays.stream(destroyedEntities).parallel().forEach(entity -> {
+                if (!isAlive(entity)) {
+                    throw new IllegalStateException("Entity " + entity + " is not alive in the ECS.");
+                }
+
+                // transfer dead entity
+                deadEntities.put(entity, entities.remove(entity));
+
+                // invalidate the destroyed entity's signature
+                if (entitySignatures.get(entity) != null) {
+                    entitySignatures.get(entity).clear();
+                }
+
+                // Put the destroyed ID at the back of the queue
+                entityQueue.push(entity);
+                livingEntityCount--;
+            });
+        } else {
+            for (int entity : destroyedEntities) {
+                if (!isAlive(entity)) {
+                    throw new IllegalStateException("Entity " + entity + " is not alive in the ECS.");
+                }
+
+                // transfer dead entity
+                deadEntities.put(entity, entities.remove(entity));
+
+                // invalidate the destroyed entity's signature
+                if (entitySignatures.get(entity) != null) {
+                    entitySignatures.get(entity).clear();
+                }
+
+                // Put the destroyed ID at the back of the queue
+                entityQueue.push(entity);
+                livingEntityCount--;
+            }
+        }
     }
 
     public void setSignature(int entity, BitSet signature) {
@@ -137,7 +203,7 @@ public class EntityManager {
         return livingEntityCount;
     }
 
-    public int getAvailableEntityCount() {
-        return availableEntities.size();
+    public int getUnusedEntityCount() {
+        return entityQueue.size();
     }
 }

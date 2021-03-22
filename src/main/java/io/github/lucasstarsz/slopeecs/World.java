@@ -24,19 +24,97 @@ public class World {
         reset(Defaults.initialEntityCount);
     }
 
-    public World(int initialEntityCount) {
-        reset(initialEntityCount);
+    public World(int initialEntityAllocation) {
+        reset(initialEntityAllocation);
     }
 
     public void reset() {
         reset(Defaults.initialEntityCount);
     }
 
-    public void reset(int initialEntityCount) {
-        entityManager = new EntityManager(this, initialEntityCount);
+    public void reset(int initialEntityAllocation) {
+        entityManager = new EntityManager(this, initialEntityAllocation);
         componentManager = new ComponentManager(this);
         systemManager = new ECSSystemManager(this);
     }
+
+
+
+    public Entity generateEntity(Component... components) {
+        Entity entity = entityManager.getEntity(entityManager.createEntity());
+        entity.addComponents(components);
+        return entity;
+    }
+
+    public Entity[] generateEntities(int entityCount, Component... components) {
+        Entity[] entities = entityManager.getEntities(entityManager.createEntities(entityCount));
+        for (Entity entity : entities) {
+            entity.addComponents(components);
+        }
+
+        return entities;
+    }
+
+    public int generateEntityID(Component... components) {
+        int entity = entityManager.createEntity();
+
+        componentManager.addComponents(entity, components);
+        systemManager.entityChanged(entity, entityManager.getSignature(entity));
+
+        return entity;
+    }
+
+    public int[] generateEntityIDs(int entityCount, Component... components) {
+        int[] entities = entityManager.createEntities(entityCount);
+
+        componentManager.addComponents(entities, components);
+        for (int entity : entities) {
+            systemManager.entityChanged(entity, entityManager.getSignature(entity));
+        }
+
+        return entities;
+    }
+
+    public void destroyEntityIDs(int... entities) {
+        entityManager.destroyEntities(entities);
+        componentManager.entitiesDestroyed(entities);
+        systemManager.entitiesDestroyed(entities);
+    }
+
+
+
+    public void addComponents(int entity, Component... components) {
+        if (!entityManager.isAlive(entity)) {
+            throw new IllegalStateException("Entity " + entity + " is not alive in the ECS.");
+        }
+
+        componentManager.addComponents(entity, components);
+        systemManager.entityChanged(entity, entityManager.getSignature(entity));
+    }
+
+    public void addComponents(int[] entities, Component... components) {
+        for (int entity : entities) {
+            if (!entityManager.isAlive(entity)) {
+                throw new IllegalStateException("Entity " + entity + " is not alive in the ECS.");
+            }
+        }
+
+        componentManager.addComponents(entities, components);
+        for (int entity : entities) {
+            systemManager.entityChanged(entity, entityManager.getSignature(entity));
+        }
+    }
+
+    public <T extends Component> T getComponent(int entity, Class<T> componentClass) {
+        return componentManager.getComponent(entity, componentClass);
+    }
+
+    @SafeVarargs
+    public final <T extends Component> void removeComponents(int entity, Class<T>... componentClasses) {
+        componentManager.removeComponents(entity, componentClasses);
+    }
+
+
 
     public ECSSystem[] addSystems(Map<Class<? extends ECSSystem>, List<?>> systemsAndArgs) {
         return systemManager.addSystems(systemsAndArgs);
@@ -50,49 +128,26 @@ public class World {
         return systemManager.addSystem(systemClass, systemArgs);
     }
 
-    public Entity[] generateEntities(int entityCount, Component... components) {
-        Entity[] entities = entityManager.getEntities(entityManager.createEntities(entityCount));
-        for (Entity entity : entities) {
-            entity.addComponents(components);
-        }
-
-        return entities;
+    public <T extends ECSSystem> T getSystem(Class<T> systemClass) {
+        return systemManager.getSystem(systemClass);
     }
 
-    public Entity generateEntity(Component... components) {
-        Entity entity = entityManager.getEntity(entityManager.createEntity());
-        entity.addComponents(components);
-        return entity;
+    public <T extends ECSSystem> void removeSystem(Class<T> systemClass) {
+        systemManager.removeSystem(systemClass);
     }
 
-    public int[] generateEntityIDs(int entityCount, Component... components) {
-        int[] entities = entityManager.createEntities(entityCount);
-        componentManager.addComponents(entities, components);
-
-        return entities;
+    @SafeVarargs
+    public final <T extends ECSSystem> void removeSystems(Class<T>... systemClasses) {
+        systemManager.removeSystems(systemClasses);
     }
 
-    public int generateEntityID(Component... components) {
-        int entity = entityManager.createEntity();
-        componentManager.addComponents(entity, components);
-
-        return entity;
-    }
-
-    public void addComponents(int entity, Component... components) {
-        if (!entityManager.isAlive(entity)) {
-            throw new IllegalStateException("Entity " + entity + " is not alive in the ECS.");
-        }
-
-        componentManager.addComponents(entity, components);
-    }
 
     public static WorldBuilder init() {
         if (worldBuilder == null) {
             worldBuilder = new WorldBuilder();
         }
 
-        return worldBuilder;
+        return worldBuilder.reset();
     }
 
 //

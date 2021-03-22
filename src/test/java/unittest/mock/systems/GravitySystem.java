@@ -1,19 +1,19 @@
 package unittest.mock.systems;
 
 import io.github.lucasstarsz.slopeecs.World;
-import io.github.lucasstarsz.slopeecs.component.IComponent;
+import io.github.lucasstarsz.slopeecs.component.Component;
 import io.github.lucasstarsz.slopeecs.system.ECSSystem;
 import unittest.mock.components.PositionComponent;
 import unittest.mock.components.VelocityComponent;
 
 import java.util.Set;
 
-public class GravitySystem implements ECSSystem {
+public class GravitySystem extends ECSSystem {
 
     public static final float gravity = 9.81f;
 
     @Override
-    public Set<Class<? extends IComponent>> getComponentsList() {
+    public Set<Class<? extends Component>> getComponentsList() {
         return Set.of(PositionComponent.class, VelocityComponent.class);
     }
 
