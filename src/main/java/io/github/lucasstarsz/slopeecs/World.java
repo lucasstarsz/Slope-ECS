@@ -21,7 +21,7 @@ public class World {
     private ECSSystemManager systemManager;
 
     public World() {
-        reset(Defaults.initialEntityCount);
+        reset();
     }
 
     public World(int initialEntityAllocation) {
@@ -140,6 +140,7 @@ public class World {
     public final <T extends ECSSystem> void removeSystems(Class<T>... systemClasses) {
         systemManager.removeSystems(systemClasses);
     }
+
 
 
     public static WorldBuilder init() {
