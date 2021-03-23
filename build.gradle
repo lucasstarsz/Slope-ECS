@@ -57,7 +57,7 @@ javadoc {
 
     options.links = [
             // resolve links to Java javadocs
-            'https://docs.oracle.com/en/java/javase/15/docs/api/'
+            'https://docs.oracle.com/en/java/javase/16/docs/api/'
     ]
 }
 
