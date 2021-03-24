@@ -5,20 +5,43 @@ import io.github.lucasstarsz.slopeecs.component.ComponentManager;
 import io.github.lucasstarsz.slopeecs.entity.Entity;
 import io.github.lucasstarsz.slopeecs.entity.EntityManager;
 import io.github.lucasstarsz.slopeecs.system.ECSSystem;
-import io.github.lucasstarsz.slopeecs.system.ECSSystemManager;
+import io.github.lucasstarsz.slopeecs.system.SystemManager;
 import io.github.lucasstarsz.slopeecs.util.Defaults;
 
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * The main entrypoint to the ECS.
+ *<p>
+ * <h2>About</h2>
+ * The {@code World} in Slope is arguably the most important part of the ECS -- it gives you the ability to access all
+ * parts of the ECS at any given point.
+ * <p>
+ * A {@code World} strings together the 3 key parts of the ECS:
+ * <ol>
+ *     <li>The {@link EntityManager} -- this stores entity ids, entity objects, and their signatures.</li>
+ *     <li>The {@link ComponentManager} -- this stores components in a way easily accessible by entity IDs.</li>
+ *     <li>The {@link SystemManager} -- this stores systems, their signatures, and cached entities.</li>
+ * </ol>
+ * For the best information on how to use the {@code World} class and other aspects of the ECS, check out
+ * <a href="https://github.com/lucasstarsz/Slope-ECS/wiki" target="_blank">the wiki</a>.
+ *
+ * @author Andrew Dey
+ * @since 0.1
+ * @version 0.2.0
+ */
 public class World {
 
+    /** The world builder instance for convenient use in building a {@link World}. */
     private static WorldBuilder worldBuilder;
 
+    /** The entity manager instance for the {@link World}. */
     private EntityManager entityManager;
+    /** The component manager instance for the {@link World}. */
     private ComponentManager componentManager;
-    private ECSSystemManager systemManager;
+    /** The system manager instance for the {@link World}. */
+    private SystemManager systemManager;
 
     public World() {
         reset();
@@ -35,7 +58,7 @@ public class World {
     public void reset(int initialEntityAllocation) {
         entityManager = new EntityManager(this, initialEntityAllocation);
         componentManager = new ComponentManager(this);
-        systemManager = new ECSSystemManager(this);
+        systemManager = new SystemManager(this);
     }
 
 
@@ -151,125 +174,18 @@ public class World {
         return worldBuilder.reset();
     }
 
-//
-//
-//    public void init() {
-//        init(ECSDefaults.defaultMaxEntityCount);
-//    }
-//
-//
-//    public void init(int maxEntityCount) {
-//        if (maxEntityCount < 1) {
-//            throw new IllegalStateException("Entity count must be at least 1.");
-//        }
-//
-//        this.maxEntities = maxEntityCount;
-//        componentManager = new ComponentManager(maxEntities);
-//        entityManager = new EntityManager(maxEntities);
-//        systemManager = new ECSSystemManager();
-//    }
-//
-//
-//    public int createEntity() {
-//        return entityManager.createEntity();
-//    }
-//
-//
-//    public void destroyEntity(int entity) {
-//        entityManager.destroyEntity(entity);
-//        componentManager.entityDestroyed(entity);
-//        systemManager.entityDestroyed(entity);
-//    }
-//
-//
-//    public <T extends Component> void registerComponent(Class<T> componentClass) {
-//        componentManager.registerComponent(componentClass);
-//    }
-//
-//
-//    public <T extends Component> void addComponent(int entity, T component) {
-//        componentManager.addComponent(entity, component);
-//
-//        BitSet signature = entityManager.getSignature(entity);
-//        if (signature == null) {
-//            signature = new BitSet();
-//        }
-//        signature.set(componentManager.getComponentType(component.getClass()));
-//
-//        entityManager.setSignature(entity, signature);
-//        systemManager.entitySignatureChanged(entity, signature);
-//    }
-//
-//
-//    public <T extends Component> void removeComponent(int entity, Class<T> componentClass) {
-//        componentManager.removeComponent(entity, componentClass);
-//
-//        BitSet signature = entityManager.getSignature(entity);
-//        signature.set(componentManager.getComponentType(componentClass), false);
-//        entityManager.setSignature(entity, signature);
-//
-//        systemManager.entitySignatureChanged(entity, signature);
-//    }
-//
-//
-//    public <T extends Component> T getComponent(int entity, Class<T> componentClass) {
-//        return componentManager.getComponent(entity, componentClass);
-//    }
-//
-//
-//    public <T extends Component> int getComponentType(Class<T> componentClass) {
-//        return componentManager.getComponentType(componentClass);
-//    }
-//
-//
-//    public <T extends ECSSystem> T registerSystem(Class<T> systemClass) {
-//        return registerSystem(systemClass, null);
-//    }
-//
-//
-//    public <T extends ECSSystem> T registerSystem(Class<T> systemClass, LinkedHashMap<Class<?>, Object> arguments) {
-//        T system = systemManager.registerSystem(systemClass, arguments);
-//
-//        /* Add the system's components */
-//        BitSet systemSignature = new BitSet();
-//        for (Class<? extends Component> component : system.getComponentsList()) {
-//            if (!componentManager.isComponentRegistered(component)) {
-//                componentManager.registerComponent(component);
-//            }
-//
-//            systemSignature.set(getComponentType(component));
-//        }
-//        systemManager.setSignature(systemClass, systemSignature);
-//
-//        return system;
-//    }
-//
-//
-//    public <T extends ECSSystem> void setSystemSignature(Class<T> systemClass, BitSet signature) {
-//        systemManager.setSignature(systemClass, signature);
-//    }
-//
-//    public void runSystems() {
-//        systemManager.runSystems(this);
-//    }
-//
-//    public <T extends ECSSystem> void runSystem(Class<T> systemClass) {
-//        systemManager.runSystem(this, systemClass);
-//    }
-//
-//    public int getMaxEntities() {
-//        return maxEntities;
-//    }
-//
+    /** {@return the {@link World}'s entity manager instance} */
     public EntityManager entityManager() {
         return entityManager;
     }
 
+    /** {@return the {@link World}'s component manager instance} */
     public ComponentManager componentManager() {
         return componentManager;
     }
 
-    public ECSSystemManager systemManager() {
+    /** {@return the {@link World}'s system manager instance} */
+    public SystemManager systemManager() {
         return systemManager;
     }
 }
