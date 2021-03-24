@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class ECSSystemManager {
+public class SystemManager {
 
     private final World world;
 
@@ -20,7 +20,7 @@ public class ECSSystemManager {
     private final Map<Integer, ECSSystem> systems;
     private final Map<Integer, SystemMetadata> dataMappings;
 
-    public ECSSystemManager(World world) {
+    public SystemManager(World world) {
         this.world = world;
 
         systemTypes = new HashMap<>();
