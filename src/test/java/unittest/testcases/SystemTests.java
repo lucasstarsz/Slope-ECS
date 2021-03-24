@@ -14,7 +14,7 @@ import java.util.BitSet;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class ECSSystemTests {
+public class SystemTests {
     private World world = new World();
 
     private int singleEntity;

@@ -8,7 +8,7 @@ import unittest.mock.components.VelocityComponent;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class ECSComponentTests {
+public class ComponentTests {
     private World world;
 
     private int[] entities;
