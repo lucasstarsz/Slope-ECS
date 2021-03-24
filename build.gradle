@@ -53,7 +53,7 @@ javadoc {
     failOnError(false)
 
     // use custom stylesheet
-    options.stylesheetFile(new File(projectDir, "src/main/javadoc/slope-custom.css"))
+//    options.stylesheetFile(new File(projectDir, "src/main/javadoc/slope-custom.css"))
 
     options.links = [
             // resolve links to Java javadocs
