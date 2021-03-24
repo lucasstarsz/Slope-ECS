@@ -1,8 +1,6 @@
 package unittest.mock.systems;
 
-import io.github.lucasstarsz.slopeecs.World;
 import io.github.lucasstarsz.slopeecs.component.Component;
-import io.github.lucasstarsz.slopeecs.entity.Entity;
 import io.github.lucasstarsz.slopeecs.system.ECSSystem;
 import unittest.mock.components.UniqueComponent;
 
@@ -15,7 +13,7 @@ public class UniqueSystem extends ECSSystem {
     }
 
     @Override
-    public void update(World world, Set<Integer> entities) {
+    public void update(Set<Integer> entities) {
 
     }
 }

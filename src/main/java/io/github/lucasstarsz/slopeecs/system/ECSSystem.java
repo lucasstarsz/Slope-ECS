@@ -27,5 +27,5 @@ public abstract class ECSSystem {
 
     public abstract Set<Class<? extends Component>> getComponentsList();
 
-    public abstract void update(World world, Set<Integer> entities);
+    public abstract void update(Set<Integer> entities);
 }

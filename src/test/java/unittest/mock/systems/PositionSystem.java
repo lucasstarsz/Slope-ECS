@@ -1,6 +1,5 @@
 package unittest.mock.systems;
 
-import io.github.lucasstarsz.slopeecs.World;
 import io.github.lucasstarsz.slopeecs.component.Component;
 import io.github.lucasstarsz.slopeecs.system.ECSSystem;
 import unittest.mock.components.PositionComponent;
@@ -15,11 +14,11 @@ public class PositionSystem extends ECSSystem {
     }
 
     @Override
-    public void update(World world, Set<Integer> entities) {
+    public void update(Set<Integer> entities) {
         for (int entity : entities) {
 
             // get components
-            PositionComponent positionComponent = world.getComponent(entity, PositionComponent.class);
+            PositionComponent positionComponent = world().getComponent(entity, PositionComponent.class);
 
             // increase position by 1
             positionComponent.x++;
