@@ -10,6 +10,8 @@ import unittest.mock.systems.GravitySystem;
 import unittest.mock.systems.PositionSystem;
 import unittest.mock.systems.UniqueSystem;
 
+import java.util.BitSet;
+
 import static junit.framework.TestCase.assertEquals;
 
 public class ECSSystemTests {
@@ -60,22 +62,18 @@ public class ECSSystemTests {
         singleEntity = world.generateEntityID(singlePositionComponent, singleVelocityComponent);
     }
 
-//    @Test
-//    public void checkGetSystemAndSignature_shouldMatchOriginal() {
-//        world.reset();
-//        world.registerComponent(PositionComponent.class);
-//
-//        PositionSystem positionSystem = new ECSSystemBuilder<>(world, PositionSystem.class)
-//                .withComponent(PositionComponent.class)
-//                .build();
-//
-//        BitSet positionSystemSignature = new BitSet();
-//        positionSystemSignature.set(world.getComponentType(PositionComponent.class));
-//        world.setSystemSignature(PositionSystem.class, positionSystemSignature);
-//
-//        assertEquals("System signatures should match.", positionSystemSignature, world.getSystemManager().getSystemSignature(positionSystem.getClass()));
-//        assertEquals("Systems should match.", positionSystem, world.getSystemManager().getSystem(positionSystem.getClass()));
-//    }
+    @Test
+    public void checkGetSystemAndSignature_shouldMatchOriginal() {
+        world.reset();
+        world.componentManager().registerComponent(PositionComponent.class);
+
+        PositionSystem positionSystem = world.addSystem(PositionSystem.class);
+        BitSet positionSystemSignature = world.systemManager().getSystemMetadata(PositionSystem.class).signature();
+        positionSystemSignature.set(world.componentManager().getComponentType(PositionComponent.class));
+
+        assertEquals("System signatures should match.", positionSystemSignature, world.systemManager().getSystemMetadata(PositionSystem.class).signature());
+        assertEquals("Systems should match.", positionSystem, world.systemManager().getSystem(PositionSystem.class));
+    }
 
     @Test(expected = IllegalStateException.class)
     public void tryCreateSystem_whenSystemAlreadyExistsInWorld() {
@@ -109,18 +107,18 @@ public class ECSSystemTests {
         assertEquals("Entity count in GravitySystem should be 0 after its only entity was destroyed.", 0, gravitySystem.entities().size());
     }
 
-//    @Test
-//    public void checkGetComponentsAfterModification_shouldMatchSingleEntity() {
-//        world.runSystem(GravitySystem.class);
-//        assertEquals("Components should match after modification.", singlePositionComponent, world.getComponent(singleEntity, PositionComponent.class));
-//        assertEquals("Components should match after modification.", singleVelocityComponent, world.getComponent(singleEntity, VelocityComponent.class));
-//    }
-//
-//    @Test
-//    public void checkGetComponentsAfterModification_shouldMatchEntities() {
-//        world.runSystem(PositionSystem.class);
-//        for (int i = 0; i < entities.length; i++) {
-//            assertEquals("Components should match after modification.", positionComponents[i], world.getComponent(entities[i], PositionComponent.class));
-//        }
-//    }
+    @Test
+    public void checkGetComponentsAfterModification_shouldMatchSingleEntity() {
+        world.runSystem(GravitySystem.class);
+        assertEquals("Components should match after modification.", singlePositionComponent, world.getComponent(singleEntity, PositionComponent.class));
+        assertEquals("Components should match after modification.", singleVelocityComponent, world.getComponent(singleEntity, VelocityComponent.class));
+    }
+
+    @Test
+    public void checkGetComponentsAfterModification_shouldMatchEntities() {
+        world.runSystem(PositionSystem.class);
+        for (int i = 0; i < entities.length; i++) {
+            assertEquals("Components should match after modification.", positionComponents[i], world.getComponent(entities[i], PositionComponent.class));
+        }
+    }
 }

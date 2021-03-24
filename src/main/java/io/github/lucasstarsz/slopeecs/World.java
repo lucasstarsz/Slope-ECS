@@ -166,6 +166,16 @@ public class World {
 
 
 
+    public <T extends ECSSystem> void runSystem(Class<T> systemClass) {
+        systemManager.runSystem(systemClass);
+    }
+
+    public void runSystems() {
+        systemManager.runSystems();
+    }
+
+
+
     public static WorldBuilder init() {
         if (worldBuilder == null) {
             worldBuilder = new WorldBuilder();

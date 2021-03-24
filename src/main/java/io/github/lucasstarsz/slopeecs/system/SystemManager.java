@@ -86,8 +86,8 @@ public class SystemManager {
     @SuppressWarnings("unchecked")
     public <T extends ECSSystem> T getSystem(Class<T> systemClass) {
         String systemType = systemClass.getTypeName();
-        if (isRegistered(systemClass)) {
-            throw new IllegalStateException("A system with the class " + systemType + " has already been registered.");
+        if (!isRegistered(systemClass)) {
+            throw new IllegalStateException("A system with the class " + systemType + " has not been registered.");
         }
 
         return (T) systems.get(systemTypes.get(systemType));
@@ -123,6 +123,22 @@ public class SystemManager {
 
     public void entitiesDestroyed(int... entities) {
         destroyEntitiesInMetadata(entities);
+    }
+
+    public <T extends ECSSystem> void runSystem(Class<T> systemClass) {
+        String systemType = systemClass.getTypeName();
+        if (!isRegistered(systemClass)) {
+            throw new IllegalStateException("A system with the class " + systemType + " has not been registered.");
+        }
+
+        int systemTypeInt = systemTypes.get(systemType);
+        systems.get(systemTypeInt).update(dataMappings.get(systemTypeInt).entities());
+    }
+
+    public void runSystems() {
+        for (ECSSystem system : systems.values()) {
+            system.update(system.data().entities());
+        }
     }
 
     private <T extends ECSSystem> T instantiateSystem(Class<T> systemClass, List<?> systemArgs) {
@@ -208,7 +224,7 @@ public class SystemManager {
         return systems;
     }
 
-    public void destroyEntitiesInMetadata(int... entities) {
+    private void destroyEntitiesInMetadata(int... entities) {
         if (entities.length > 1000) {
             // convert to set for use of Set#removeAll
             Set<Integer> entitiesSet = Arrays.stream(entities)
