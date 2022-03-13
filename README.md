@@ -23,6 +23,9 @@ Slope is a developer-friendly Entity Component System written in pure Java. It e
 - [x] **Open Source**
     - Under the [MIT License][MIT-License], you're free to use and modify this library for your own needs.
 
+## References
+- This ECS is designed based on [Austin Morlan's Entity Component System](https://austinmorlan.com/posts/entity_component_system/) blog post.
+
 ## Adding Slope-ECS to your project
 This repository can be found on [Maven Central][Maven-Central] -- as such, it can be easily added to your project as a dependency through the use of a build tool.
 
